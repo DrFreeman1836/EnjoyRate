@@ -1,0 +1,9 @@
+urlopenexchangerates:
+  url: https://openexchangerates.org/api
+  symbols: EUR
+  app_id: 347d734c06c34f55b9da7fb614ab2c4e
+
+giphy:
+  url: api.giphy.com/v1/gifs
+  api_key : lbfQCY2DV8L4ObSUNCIMI8wEjdfogOb5
+

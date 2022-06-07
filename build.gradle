@@ -1,0 +1,29 @@
+plugins {
+    id 'org.springframework.boot' version '2.7.0'
+    id 'java'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    maven { url "https://plugins.gradle.org/m2/" }
+    gradlePluginPortal()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web:2.6.2'
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:3.1.2'
+    compileOnly 'org.projectlombok:lombok:1.18.24'
+    annotationProcessor'org.projectlombok:lombok:1.18.24'
+    testCompileOnly'org.projectlombok:lombok:1.18.24'
+    testAnnotationProcessor'org.projectlombok:lombok:1.18.24'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.6.2'
+}
+
+java.sourceCompatibility = JavaVersion.VERSION_17
+
+test {
+    useJUnitPlatform()
+}
