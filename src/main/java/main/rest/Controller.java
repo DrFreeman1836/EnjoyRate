@@ -2,6 +2,7 @@ package main.rest;
 
 import java.math.BigDecimal;
 import lombok.RequiredArgsConstructor;
+import main.service.PatternDeltaPrice;
 import main.service.impl.TickManagerServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +17,8 @@ public class Controller {
 
   private TickManagerServiceImpl tickManagerService;
 
+  private PatternDeltaPrice patternDeltaPrice;
+
   @PostMapping()
   public ResponseEntity<?> addTick(
       @RequestParam(name = "priceAsk") BigDecimal priceAsk,
@@ -27,7 +30,10 @@ public class Controller {
     try {
 
       tickManagerService.processingTick(priceAsk, priceBid, time, flag);
-      return ResponseEntity.ok().build();
+
+      int res = patternDeltaPrice.getResponse();
+
+      return ResponseEntity.status(res).build();
 
     } catch (Exception ex) {
       ex.printStackTrace();

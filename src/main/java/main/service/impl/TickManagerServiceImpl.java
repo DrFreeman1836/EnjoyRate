@@ -1,10 +1,7 @@
 package main.service.impl;
 
 import java.math.BigDecimal;
-import java.util.ArrayDeque;
-import java.util.Comparator;
-import java.util.Deque;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import main.model.Tick;
@@ -33,17 +30,19 @@ public class TickManagerServiceImpl implements ManagerTicks {
 
     if (listTicks.size() >= SIZE_LIST_TICKS) {
       listTicks.pollLast();
-      listTicks.addFirst(tick);
-    } else {
-      listTicks.addFirst(tick);
     }
+    listTicks.addFirst(tick);
 
   }
 
-  public List<Tick> getSortedListTicks() {
-    return listTicks.stream().sorted(Comparator.comparingLong(Tick::getTimestamp))
-        .collect(Collectors.toList());
+  public List<Tick> getSortedListTicks(int count) {
+    return new ArrayList<>(listTicks.stream().sorted(Comparator.comparingLong(Tick::getTimestamp))
+        .collect(Collectors.toList()));
   }
+
+//  public List<Tick> getListTicks() {
+//    return new ArrayList<>(listTicks.stream().collect(Collectors.toList()));
+//  }
 
   public BigDecimal getSizeTick(BigDecimal priceAsk, BigDecimal priceBid) {
     return priceAsk.subtract(priceBid);
