@@ -19,19 +19,18 @@ public class TickManagerServiceImpl implements ManagerTicks {
 
   private final int SIZE_LIST_TICKS = 300;
 
-  public void processingTick(BigDecimal priceAsk, BigDecimal priceBid, Long time, Boolean flag) throws Exception {
+  public void processingTick(BigDecimal priceAsk, BigDecimal priceBid, Long time) throws Exception {
 
     Tick tick = Tick.builder()
         .priceAsk(priceAsk)
         .priceBid(priceBid)
         .timestamp(time)
-        .flagFrog(flag)
         .build();
 
     if (listTicks.size() >= SIZE_LIST_TICKS) {
-      listTicks.pollLast();
+      listTicks.pollFirst();
     }
-    listTicks.addFirst(tick);
+    listTicks.addLast(tick);//проверить порядок
 
   }
 
