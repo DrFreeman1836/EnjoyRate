@@ -17,7 +17,7 @@ public class TickManagerServiceImpl implements ManagerTicks {
 
   private Deque<Tick> listTicks = new ArrayDeque<>();
 
-  private final int SIZE_LIST_TICKS = 300;
+  private final int SIZE_LIST_TICKS = 3;
 
   public void processingTick(BigDecimal priceAsk, BigDecimal priceBid, Long time) throws Exception {
 
@@ -30,7 +30,7 @@ public class TickManagerServiceImpl implements ManagerTicks {
     if (listTicks.size() >= SIZE_LIST_TICKS) {
       listTicks.pollFirst();
     }
-    listTicks.addLast(tick);//проверить порядок
+    listTicks.addLast(tick);
 
   }
 
@@ -39,9 +39,13 @@ public class TickManagerServiceImpl implements ManagerTicks {
         .collect(Collectors.toList()));
   }
 
-//  public List<Tick> getListTicks() {
-//    return new ArrayList<>(listTicks.stream().collect(Collectors.toList()));
-//  }
+  public List<Tick> getListTicks() {
+    return new ArrayList<>(listTicks);
+  }
+
+  public List<Tick> getListTicks(int count) {
+    return new ArrayList<>(listTicks.stream().skip(listTicks.size() - count).collect(Collectors.toList()));
+  }
 
   public BigDecimal getSizeTick(BigDecimal priceAsk, BigDecimal priceBid) {
     return priceAsk.subtract(priceBid);
