@@ -43,7 +43,7 @@ public class TickManagerServiceImpl implements ManagerTicks {
     return new ArrayList<>(listTicks);
   }
 
-  public List<Tick> getListTicks(int count) {
+  public List<Tick> getListTicks(int count) throws Exception {
     return new ArrayList<>(listTicks.stream().skip(listTicks.size() - count).collect(Collectors.toList()));
   }
 

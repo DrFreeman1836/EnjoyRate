@@ -5,7 +5,8 @@ public enum SignalByDelta {
   ASK(200),
   BID(201),
   ALL(202),
-  NO_PATTERN(404);
+  NO_PATTERN(404),
+  ERROR(400);
 
   private final int responseCode;
 
