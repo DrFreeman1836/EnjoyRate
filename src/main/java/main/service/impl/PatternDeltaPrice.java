@@ -51,12 +51,10 @@ public class PatternDeltaPrice implements PatternPrice {
   }
 
   public int getResponse() {
-    try {
-      getSelection();
-    } catch (Exception ex) {
-      System.out.println(tickManagerService.getListTicks().size());
+    if(tickManagerService.sizeStorageTicks() < count) {
       return SignalByDelta.ERROR.getResponseCode();
     }
+    getSelection();
     if (checkPatternAll()) {
       return SignalByDelta.ALL.getResponseCode();
     }
@@ -69,7 +67,7 @@ public class PatternDeltaPrice implements PatternPrice {
     return SignalByDelta.NO_PATTERN.getResponseCode();
   }
 
-  private void getSelection() throws Exception {
+  private void getSelection() {
     listTicks = tickManagerService.getListTicks(count);
     maxPriceAsk = listTicks.stream()
         .max(Comparator.comparing(Tick::getPriceAsk))

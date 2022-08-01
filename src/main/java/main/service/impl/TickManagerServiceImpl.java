@@ -17,7 +17,7 @@ public class TickManagerServiceImpl implements ManagerTicks {
 
   private Deque<Tick> listTicks = new ArrayDeque<>();
 
-  private final int SIZE_LIST_TICKS = 3;
+  private final int SIZE_LIST_TICKS = 300;
 
   public void processingTick(BigDecimal priceAsk, BigDecimal priceBid, Long time) throws Exception {
 
@@ -43,7 +43,11 @@ public class TickManagerServiceImpl implements ManagerTicks {
     return new ArrayList<>(listTicks);
   }
 
-  public List<Tick> getListTicks(int count) throws Exception {
+  public int sizeStorageTicks() {
+    return listTicks.size();
+  }
+
+  public List<Tick> getListTicks(int count) {
     return new ArrayList<>(listTicks.stream().skip(listTicks.size() - count).collect(Collectors.toList()));
   }
 
@@ -67,7 +71,8 @@ public class TickManagerServiceImpl implements ManagerTicks {
 
   @Override
   public Tick getLastTick() {
-    return tickRepository.findAll().stream().max(Comparator.comparingLong(Tick::getTimestamp)).get();
+    return tickRepository.findAll().stream().max(Comparator.comparingLong(Tick::getTimestamp))
+        .get();
   }
 
 
