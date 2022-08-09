@@ -18,9 +18,13 @@ public class PatternDeltaPrice implements PatternPrice {
 
   private int count;
 
-  private BigDecimal deltaAsk;
+  private BigDecimal deltaMaxAsk;
 
-  private BigDecimal deltaBid;
+  private BigDecimal deltaMinAsk;
+
+  private BigDecimal deltaMaxBid;
+
+  private BigDecimal deltaMinBid;
 
   private List<Tick> listTicks;
 
@@ -46,8 +50,10 @@ public class PatternDeltaPrice implements PatternPrice {
   public void initParams(HashMap<String, Number> params) {
     this.time = params.get("time").intValue();
     this.count = params.get("count").intValue();
-    this.deltaAsk = new BigDecimal(params.get("deltaAsk").toString());
-    this.deltaBid = new BigDecimal(params.get("deltaBid").toString());
+    this.deltaMaxAsk = new BigDecimal(params.get("deltaMaxAsk").toString());
+    this.deltaMinAsk = new BigDecimal(params.get("deltaMinBid").toString());
+    this.deltaMaxBid = new BigDecimal(params.get("deltaMaxBid").toString());
+    this.deltaMinBid = new BigDecimal(params.get("deltaMinBid").toString());
   }
 
   public int getResponse() {
@@ -90,7 +96,8 @@ public class PatternDeltaPrice implements PatternPrice {
   }
 
   private boolean checkPatternAsk() {
-    if (maxPriceAsk.subtract(minPriceAsk).compareTo(deltaAsk) <= 0
+    if (maxPriceAsk.subtract(minPriceAsk).compareTo(deltaMaxAsk) <= 0
+        && maxPriceAsk.subtract(minPriceAsk).compareTo(deltaMinAsk) >= 0
         && maxTime - minTime < time) {
       return true;
     }
@@ -98,7 +105,8 @@ public class PatternDeltaPrice implements PatternPrice {
   }
 
   private boolean checkPatternBid() {
-    if (maxPriceBid.subtract(minPriceBid).compareTo(deltaBid) <= 0
+    if (maxPriceBid.subtract(minPriceBid).compareTo(deltaMaxBid) <= 0
+        && maxPriceBid.subtract(minPriceBid).compareTo(deltaMinBid) >= 0
         && maxTime - minTime < time) {
       return true;
     }
