@@ -1,3 +1,8 @@
+bot:
+  url: https://api.telegram.org/bot
+  name: FirstTestingBot
+  chatId: -1001238385079
+  token: 1574801869:AAErCVUSFkL7aAxyvNNbDAsLy3vUov-yGs0
 
 server:
   port: 8080

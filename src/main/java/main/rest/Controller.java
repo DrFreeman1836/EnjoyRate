@@ -4,10 +4,13 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import main.service.PatternPrice;
+import main.service.impl.TelegramBotMessages;
 import main.service.impl.TickManagerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.context.Theme;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +25,8 @@ public class Controller {
 
   private PatternPrice patternPrice;
 
+  private TelegramBotMessages bot;
+
   @Autowired
   public void setTickManagerService(TickManagerServiceImpl tickManagerService) {
     this.tickManagerService = tickManagerService;
@@ -31,6 +36,11 @@ public class Controller {
   @Qualifier("patternDeltaPrice")
   public void setPatternPrice(PatternPrice patternPrice) {
     this.patternPrice = patternPrice;
+  }
+
+  @Autowired
+  public void setBot(TelegramBotMessages bot) {
+    this.bot = bot;
   }
 
   @PostMapping()
@@ -68,6 +78,7 @@ public class Controller {
           "deltaMaxBid", deltaMaxBid,
           "deltaMinBid", deltaMinBid)));
       int res = patternPrice.getResponse();
+      bot.sendMessage(String.valueOf(res));
       return ResponseEntity.status(res).build();
     } catch (Exception ex) {
       ex.printStackTrace();
