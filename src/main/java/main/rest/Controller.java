@@ -52,7 +52,7 @@ public class Controller {
 
   @GetMapping("/signal")
   public ResponseEntity<?> getSignal(
-      @RequestParam(name = "time") int time,
+      @RequestParam(name = "time") long time,
       @RequestParam(name = "count") int count,
       @RequestParam(name = "deltaMaxAsk") BigDecimal deltaMaxAsk,
       @RequestParam(name = "deltaMinAsk") BigDecimal deltaMinAsk,

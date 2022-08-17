@@ -17,7 +17,7 @@ public class TickManagerServiceImpl implements ManagerTicks {
 
   private Deque<Tick> listTicks = new ArrayDeque<>();
 
-  private final int SIZE_LIST_TICKS = 300;
+  private final int SIZE_LIST_TICKS = 100;
 
   public void processingTick(BigDecimal priceAsk, BigDecimal priceBid, Long time) throws Exception {
 

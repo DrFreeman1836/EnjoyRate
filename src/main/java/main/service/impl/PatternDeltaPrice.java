@@ -14,7 +14,7 @@ import java.util.List;
 @Service
 public class PatternDeltaPrice implements PatternPrice {
 
-  private int time;//ms
+  private long time;//ms
 
   private int count;
 
@@ -51,7 +51,7 @@ public class PatternDeltaPrice implements PatternPrice {
     this.time = params.get("time").intValue();
     this.count = params.get("count").intValue();
     this.deltaMaxAsk = new BigDecimal(params.get("deltaMaxAsk").toString());
-    this.deltaMinAsk = new BigDecimal(params.get("deltaMinBid").toString());
+    this.deltaMinAsk = new BigDecimal(params.get("deltaMinAsk").toString());
     this.deltaMaxBid = new BigDecimal(params.get("deltaMaxBid").toString());
     this.deltaMinBid = new BigDecimal(params.get("deltaMinBid").toString());
   }
@@ -81,12 +81,14 @@ public class PatternDeltaPrice implements PatternPrice {
     minPriceAsk = listTicks.stream()
         .min(Comparator.comparing(Tick::getPriceAsk))
         .get().getPriceAsk();
+
     maxPriceBid = listTicks.stream()
         .max(Comparator.comparing(Tick::getPriceBid))
         .get().getPriceBid();
     minPriceBid = listTicks.stream()
         .min(Comparator.comparing(Tick::getPriceBid))
         .get().getPriceBid();
+
     maxTime = listTicks.stream()
         .max(Comparator.comparing(Tick::getTimestamp))
         .get().getTimestamp();
