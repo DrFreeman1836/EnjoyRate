@@ -5,7 +5,7 @@ bot:
   token: 1574801869:AAErCVUSFkL7aAxyvNNbDAsLy3vUov-yGs0
 
 server:
-  port: 8080
+  port: 80
 
 spring.h2.console.enabled: true
 spring.h2.console.path: /h2-tick

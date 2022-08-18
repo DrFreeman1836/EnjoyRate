@@ -78,7 +78,7 @@ public class Controller {
           "deltaMaxBid", deltaMaxBid,
           "deltaMinBid", deltaMinBid)));
       int res = patternPrice.getResponse();
-      bot.sendMessage(String.valueOf(res));
+      if(res != 404) bot.sendMessage(String.valueOf(res));
       return ResponseEntity.status(res).build();
     } catch (Exception ex) {
       ex.printStackTrace();
