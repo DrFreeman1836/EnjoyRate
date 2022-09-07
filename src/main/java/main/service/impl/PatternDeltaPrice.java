@@ -65,10 +65,10 @@ public class PatternDeltaPrice implements PatternPrice {
       return SignalByDelta.ALL.getResponseCode();
     }
     if (checkPatternAsk()) {
-      return SignalByDelta.ASK.getResponseCode();
+      return SignalByDelta.SELL.getResponseCode();
     }
     if (checkPatternBid()) {
-      return SignalByDelta.BID.getResponseCode();
+      return SignalByDelta.BUY.getResponseCode();
     }
     return SignalByDelta.NO_PATTERN.getResponseCode();
   }

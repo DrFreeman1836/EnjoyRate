@@ -49,7 +49,6 @@ public class Controller {
       @RequestParam(name = "priceBid") BigDecimal priceBid) {
 
     Long time = System.currentTimeMillis();
-
     try {
       tickManagerService.processingTick(priceAsk, priceBid, time);
       return ResponseEntity.ok().build();
@@ -78,7 +77,7 @@ public class Controller {
           "deltaMaxBid", deltaMaxBid,
           "deltaMinBid", deltaMinBid)));
       int res = patternPrice.getResponse();
-      if(res != 404) bot.sendMessage(String.valueOf(res));
+      if(res != 404) bot.sendMessage(String.valueOf(res) + " Витя");
       return ResponseEntity.status(res).build();
     } catch (Exception ex) {
       ex.printStackTrace();

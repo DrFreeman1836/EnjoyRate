@@ -2,8 +2,8 @@ package main.enamRes;
 
 public enum SignalByDelta {
 
-  ASK(200),
-  BID(201),
+  SELL(200),
+  BUY(201),
   ALL(202),
   NO_PATTERN(404),
   ERROR(400);
