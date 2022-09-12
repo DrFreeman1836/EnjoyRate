@@ -6,6 +6,7 @@ import java.util.HashMap;
 import main.enamRes.SignalByDelta;
 import main.model.Tick;
 import main.service.PatternPrice;
+import main.service.impl.trend.PatternDeltaPriceTrend;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,7 +41,11 @@ public class PatternDeltaPrice implements PatternPrice {
 
   private BigDecimal minPriceBid;
 
+  private BigDecimal minDeltaTrend;
+
   private TickManagerServiceImpl tickManagerService;
+
+  private PatternDeltaPriceTrend trend;
 
   @Autowired
   public void setTickManagerService(TickManagerServiceImpl tickManagerService) {
@@ -54,6 +59,7 @@ public class PatternDeltaPrice implements PatternPrice {
     this.deltaMinAsk = new BigDecimal(params.get("deltaMinAsk").toString());
     this.deltaMaxBid = new BigDecimal(params.get("deltaMaxBid").toString());
     this.deltaMinBid = new BigDecimal(params.get("deltaMinBid").toString());
+    this.minDeltaTrend = new BigDecimal(params.get("minDeltaTrend").toString());
   }
 
   public int getResponse() {
@@ -61,40 +67,37 @@ public class PatternDeltaPrice implements PatternPrice {
       return SignalByDelta.ERROR.getResponseCode();
     }
     getSelection();
-    if (checkPatternAll()) {
-      return SignalByDelta.ALL.getResponseCode();
-    }
     if (checkPatternAsk()) {
-      return SignalByDelta.SELL.getResponseCode();
+      BigDecimal resultTrendAsk = trend.getTrend(listTicks.stream().map(Tick::getPriceAsk).toList());
+      if(resultTrendAsk.compareTo(new BigDecimal(0)) > 0){
+        return resultTrendAsk.compareTo(minDeltaTrend) >= 0 ? SignalByDelta.BUY.getResponseCode() : SignalByDelta.NO_PATTERN.getResponseCode();
+      }
+      if(resultTrendAsk.compareTo(new BigDecimal(0)) < 0){
+        return resultTrendAsk.abs().compareTo(minDeltaTrend) >= 0 ? SignalByDelta.SELL.getResponseCode() : SignalByDelta.NO_PATTERN.getResponseCode();
+      }
     }
     if (checkPatternBid()) {
-      return SignalByDelta.BUY.getResponseCode();
+      BigDecimal resultTrendAsk = trend.getTrend(listTicks.stream().map(Tick::getPriceBid).toList());
+      if(resultTrendAsk.compareTo(new BigDecimal(0)) > 0){
+        return resultTrendAsk.compareTo(minDeltaTrend) >= 0 ? SignalByDelta.BUY.getResponseCode() : SignalByDelta.NO_PATTERN.getResponseCode();
+      }
+      if(resultTrendAsk.compareTo(new BigDecimal(0)) < 0){
+        return resultTrendAsk.abs().compareTo(minDeltaTrend) >= 0 ? SignalByDelta.SELL.getResponseCode() : SignalByDelta.NO_PATTERN.getResponseCode();
+      }
     }
     return SignalByDelta.NO_PATTERN.getResponseCode();
   }
 
   private void getSelection() {
     listTicks = tickManagerService.getListTicks(count);
-    maxPriceAsk = listTicks.stream()
-        .max(Comparator.comparing(Tick::getPriceAsk))
-        .get().getPriceAsk();
-    minPriceAsk = listTicks.stream()
-        .min(Comparator.comparing(Tick::getPriceAsk))
-        .get().getPriceAsk();
+    maxPriceAsk = listTicks.stream().max(Comparator.comparing(Tick::getPriceAsk)).get().getPriceAsk();
+    minPriceAsk = listTicks.stream().min(Comparator.comparing(Tick::getPriceAsk)).get().getPriceAsk();
 
-    maxPriceBid = listTicks.stream()
-        .max(Comparator.comparing(Tick::getPriceBid))
-        .get().getPriceBid();
-    minPriceBid = listTicks.stream()
-        .min(Comparator.comparing(Tick::getPriceBid))
-        .get().getPriceBid();
+    maxPriceBid = listTicks.stream().max(Comparator.comparing(Tick::getPriceBid)).get().getPriceBid();
+    minPriceBid = listTicks.stream().min(Comparator.comparing(Tick::getPriceBid)).get().getPriceBid();
 
-    maxTime = listTicks.stream()
-        .max(Comparator.comparing(Tick::getTimestamp))
-        .get().getTimestamp();
-    minTime = listTicks.stream()
-        .min(Comparator.comparing(Tick::getTimestamp))
-        .get().getTimestamp();
+    maxTime = listTicks.stream().max(Comparator.comparing(Tick::getTimestamp)).get().getTimestamp();
+    minTime = listTicks.stream().min(Comparator.comparing(Tick::getTimestamp)).get().getTimestamp();
   }
 
   private boolean checkPatternAsk() {

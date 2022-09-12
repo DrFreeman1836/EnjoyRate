@@ -63,6 +63,7 @@ public class Controller {
   public ResponseEntity<?> getSignal(
       @RequestParam(name = "time") long time,
       @RequestParam(name = "count") int count,
+      @RequestParam(name = "minDeltaTrend") BigDecimal minDeltaTrend,
       @RequestParam(name = "deltaMaxAsk") BigDecimal deltaMaxAsk,
       @RequestParam(name = "deltaMinAsk") BigDecimal deltaMinAsk,
       @RequestParam(name = "deltaMaxBid") BigDecimal deltaMaxBid,
@@ -72,12 +73,13 @@ public class Controller {
       patternPrice.initParams(new HashMap<>(Map.of(
           "time", time,
           "count", count,
+          "minDeltaTrend", minDeltaTrend,
           "deltaMaxAsk", deltaMaxAsk,
           "deltaMinAsk", deltaMinAsk,
           "deltaMaxBid", deltaMaxBid,
           "deltaMinBid", deltaMinBid)));
       int res = patternPrice.getResponse();
-      if(res != 404) bot.sendMessage(String.valueOf(res) + " Витя");
+      if(res != 404) bot.sendMessage(String.valueOf(res));
       return ResponseEntity.status(res).build();
     } catch (Exception ex) {
       ex.printStackTrace();

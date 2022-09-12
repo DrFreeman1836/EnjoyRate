@@ -4,7 +4,6 @@ public enum SignalByDelta {
 
   SELL(200),
   BUY(201),
-  ALL(202),
   NO_PATTERN(404),
   ERROR(400);
 
