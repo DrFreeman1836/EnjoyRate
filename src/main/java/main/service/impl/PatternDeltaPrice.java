@@ -52,6 +52,11 @@ public class PatternDeltaPrice implements PatternPrice {
     this.tickManagerService = tickManagerService;
   }
 
+  @Autowired
+  public void setTrend(PatternDeltaPriceTrend trend) {
+    this.trend = trend;
+  }
+
   public void initParams(HashMap<String, Number> params) {
     this.time = params.get("time").intValue();
     this.count = params.get("count").intValue();
