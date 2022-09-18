@@ -8,9 +8,7 @@ import main.service.impl.TelegramBotMessages;
 import main.service.impl.TickManagerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.context.Theme;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -86,6 +84,12 @@ public class Controller {
       return ResponseEntity.status(500).build();
     }
 
+  }
+
+  @GetMapping("/test")
+  public ResponseEntity<?> test(){
+    tickManagerService.getListTicks().forEach(System.out::println);
+    return ResponseEntity.ok().build();
   }
 
 }
