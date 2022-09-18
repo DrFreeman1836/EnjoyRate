@@ -22,9 +22,6 @@ public class TestPatternDeltaPrice {
   private MockMvc mockMvc;
 
   @MockBean
-  private TickManagerServiceImpl managerService;
-
-  @MockBean
   private TelegramBotMessages botMessages;
 
   @MockBean
@@ -32,9 +29,11 @@ public class TestPatternDeltaPrice {
 
   @Test
   public void postTick() throws Exception {
-    MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("http://localhost:80/api/v1/ea/test");
-    ResultActions result = mockMvc.perform(request);
-    result.andExpect(MockMvcResultMatchers.status().is(200));
+    MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post("http://localhost:80/api/v1/ea?priceAsk=1.00677&priceBid=1.00056");
+    mockMvc.perform(request);
+    MockHttpServletRequestBuilder request2 = MockMvcRequestBuilders.get("http://localhost:80/api/v1/ea/test");
+    ResultActions result2 = mockMvc.perform(request2);
+    result2.andExpect(MockMvcResultMatchers.status().is(200));
   }
 
 
