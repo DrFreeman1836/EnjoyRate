@@ -31,11 +31,6 @@ public class TickManagerServiceImpl implements ManagerTicks {
 
   }
 
-  public List<Tick> getSortedListTicks(int count) {
-    return new ArrayList<>(listTicks.stream().sorted(Comparator.comparingLong(Tick::getTimestamp))
-        .collect(Collectors.toList()));
-  }
-
   public List<Tick> getListTicks() {
     return new ArrayList<>(listTicks);
   }
@@ -46,10 +41,6 @@ public class TickManagerServiceImpl implements ManagerTicks {
 
   public List<Tick> getListTicks(int count) {
     return new ArrayList<>(listTicks.stream().skip(listTicks.size() - count).collect(Collectors.toList()));
-  }
-
-  public BigDecimal getSizeTick(BigDecimal priceAsk, BigDecimal priceBid) {
-    return priceAsk.subtract(priceBid);
   }
 
 }

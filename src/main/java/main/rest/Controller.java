@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import main.service.PatternPrice;
+import main.storage.ManagerTicks;
 import main.telegram.impl.TelegramBotMessages;
 import main.storage.impl.TickManagerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,19 +20,20 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("api/v1/ea")
 public class Controller {
 
-  private TickManagerServiceImpl tickManagerService;
+  private ManagerTicks tickManagerService;
 
   private PatternPrice patternPrice;
 
   private TelegramBotMessages bot;
 
   @Autowired
+  @Qualifier("tickManagerServiceImpl")
   public void setTickManagerService(TickManagerServiceImpl tickManagerService) {
     this.tickManagerService = tickManagerService;
   }
 
   @Autowired
-  @Qualifier("patternDeltaPrice")
+  @Qualifier("firstPattern")
   public void setPatternPrice(PatternPrice patternPrice) {
     this.patternPrice = patternPrice;
   }
@@ -61,7 +63,7 @@ public class Controller {
   public ResponseEntity<?> getSignal(
       @RequestParam(name = "time") long time,
       @RequestParam(name = "count") int count,
-      @RequestParam(name = "minDeltaTrend") BigDecimal minDeltaTrend,
+      @RequestParam(name = "minDeltaTrend", required = false) BigDecimal minDeltaTrend,
       @RequestParam(name = "deltaMaxAsk") BigDecimal deltaMaxAsk,
       @RequestParam(name = "deltaMinAsk") BigDecimal deltaMinAsk,
       @RequestParam(name = "deltaMaxBid") BigDecimal deltaMaxBid,
@@ -80,7 +82,7 @@ public class Controller {
       if(res != 404) bot.sendMessage(String.valueOf(res));
       return ResponseEntity.status(res).build();
     } catch (Exception ex) {
-      ex.printStackTrace();
+      bot.sendMessage(ex.toString());
       return ResponseEntity.status(500).build();
     }
 
