@@ -1,19 +1,16 @@
-package main.service.impl;
+package main.storage.impl;
 
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import main.model.Tick;
-import main.repository.TickRepository;
-import main.service.ManagerTicks;
+import main.storage.ManagerTicks;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class TickManagerServiceImpl implements ManagerTicks {
-
-  private final TickRepository tickRepository;
 
   private Deque<Tick> listTicks = new ArrayDeque<>();
 
@@ -54,26 +51,5 @@ public class TickManagerServiceImpl implements ManagerTicks {
   public BigDecimal getSizeTick(BigDecimal priceAsk, BigDecimal priceBid) {
     return priceAsk.subtract(priceBid);
   }
-
-  public long countTicks() {
-    return tickRepository.count();
-  }
-
-  @Override
-  public int addTick(Tick tick) {
-    return tickRepository.save(tick).getId();
-  }
-
-  @Override
-  public void addAllTick(List<Tick> listTicks) {
-    tickRepository.saveAll(listTicks);
-  }
-
-  @Override
-  public Tick getLastTick() {
-    return tickRepository.findAll().stream().max(Comparator.comparingLong(Tick::getTimestamp))
-        .get();
-  }
-
 
 }

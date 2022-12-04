@@ -1,6 +1,6 @@
-package main.service.impl;
+package main.telegram.impl;
 
-import main.service.MessagesBot;
+import main.telegram.MessagesBot;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

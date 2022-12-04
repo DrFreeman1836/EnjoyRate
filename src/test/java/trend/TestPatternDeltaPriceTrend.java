@@ -1,4 +1,6 @@
-import main.service.impl.trend.PatternDeltaPriceTrend;
+package trend;
+
+import main.service.impl.trend.Trend;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -16,7 +18,7 @@ public class TestPatternDeltaPriceTrend {
         data.add(new BigDecimal("0.00006"));
         data.add(new BigDecimal("0.00005"));
         data.add(new BigDecimal("0.00003"));
-        PatternDeltaPriceTrend trend = new PatternDeltaPriceTrend();
+        Trend trend = new Trend();
         assertEquals(new BigDecimal("-0.00002").toString(), trend.getTrend(data).toString());
 
         List<BigDecimal> data2 = new ArrayList<>();
