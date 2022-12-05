@@ -16,7 +16,6 @@ public class FirstPattern extends AbstractPattern {
 
   @Override
   public int getResponse() {
-    System.out.println("tyt");// otladka
     return super.getResponse();
   }
 
