@@ -4,11 +4,11 @@ import java.math.BigDecimal;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
-import main.enam.TypeSelection;
+import main.enam.TypeSignalActivity;
 import main.model.Tick;
 import main.storage.impl.TickManagerServiceImpl;
 
-public abstract class AbstractPattern implements PatternPrice {
+public abstract class AbstractPatternActivity implements PatternPrice {
 
   private long time;//ms
   private int count;
@@ -33,7 +33,7 @@ public abstract class AbstractPattern implements PatternPrice {
 
   private TickManagerServiceImpl tickManagerService;
 
-  public AbstractPattern(TickManagerServiceImpl tickManagerService) {
+  public AbstractPatternActivity(TickManagerServiceImpl tickManagerService) {
     this.tickManagerService = tickManagerService;
   }
 
@@ -48,19 +48,19 @@ public abstract class AbstractPattern implements PatternPrice {
 
   public int getResponse() {
     if (tickManagerService.sizeStorageTicks() < count) {//count
-      return TypeSelection.ERROR.getResponseCode();
+      return TypeSignalActivity.ERROR.getResponseCode();
     }
     getSelection();
     if (checkPatternAll()) {
-      return TypeSelection.ALL.getResponseCode();
+      return TypeSignalActivity.ALL.getResponseCode();
     }
     if (checkPatternAsk()) {
-      return TypeSelection.ASK.getResponseCode();
+      return TypeSignalActivity.ASK.getResponseCode();
     }
     if (checkPatternBid()) {
-      return TypeSelection.BID.getResponseCode();
+      return TypeSignalActivity.BID.getResponseCode();
     }
-    return TypeSelection.NO_PATTERN.getResponseCode();
+    return TypeSignalActivity.NO_PATTERN.getResponseCode();
   }
 
   private void getSelection() {

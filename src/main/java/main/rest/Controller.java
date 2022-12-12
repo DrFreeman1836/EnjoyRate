@@ -59,11 +59,10 @@ public class Controller {
 
   }
 
-  @GetMapping("/signal")
+  @GetMapping("/signal/activity")
   public ResponseEntity<?> getSignal(
       @RequestParam(name = "time") long time,
       @RequestParam(name = "count") int count,
-      @RequestParam(name = "minDeltaTrend") BigDecimal minDeltaTrend,
       @RequestParam(name = "deltaMaxAsk") BigDecimal deltaMaxAsk,
       @RequestParam(name = "deltaMinAsk") BigDecimal deltaMinAsk,
       @RequestParam(name = "deltaMaxBid") BigDecimal deltaMaxBid,
@@ -87,6 +86,11 @@ public class Controller {
 
   }
 
+  @GetMapping("/signal/passivity")
+  public ResponseEntity<?> getSignal() {
+    return null;
+  }
+
   @GetMapping("/test")
   public ResponseEntity<?> test(){
     tickManagerService.getListTicks().forEach(System.out::println);
@@ -94,3 +98,8 @@ public class Controller {
   }
 
 }
+/**
+ залипание - Проверка на больше чем Ннное количество тиков в заданное колличество миллисекунд - если проверка пройдена
+ проверяем новую переменную времени в которой было не больше чем больше заданное колличество тиков.
+ ставим разноцветные нолики - по аску по биду или вместе в настройках
+ */

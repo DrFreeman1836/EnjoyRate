@@ -1,13 +1,11 @@
 package trend;
 
-import static org.junit.Assert.assertEquals;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import main.Application;
-import main.enam.TypeSelection;
-import main.enam.TypeSignal;
+import main.enam.TypeSignalActivity;
 import main.service.impl.trend.PatternDeltaPriceTrend;
 import main.telegram.impl.TelegramBotMessages;
 import main.storage.impl.TickManagerServiceImpl;
@@ -52,7 +50,7 @@ public class TestPatternDeltaPrice {
     tickManagerService.processingTick(BigDecimal.valueOf(0.00028), BigDecimal.valueOf(0.00035), 350L);
     tickManagerService.processingTick(BigDecimal.valueOf(0.00035), BigDecimal.valueOf(0.00038), 550L);
     int res = patternDeltaPrice.getResponse();
-    Assertions.assertEquals(TypeSignal.BUY.getResponseCode(), res);
+    //Assertions.assertEquals(TypeSignalPassivity.BUY.getResponseCode(), res);
 
   }
 
@@ -73,7 +71,7 @@ public class TestPatternDeltaPrice {
     tickManagerService.processingTick(BigDecimal.valueOf(0.00023), BigDecimal.valueOf(0.00024), 550L);
     tickManagerService.processingTick(BigDecimal.valueOf(0.00035), BigDecimal.valueOf(0.00037), 950L);
     int res = patternDeltaPrice.getResponse();
-    Assertions.assertEquals(TypeSignal.BUY.getResponseCode(), res);
+    //Assertions.assertEquals(TypeSignalPassivity.BUY.getResponseCode(), res);
 
   }
   @Test
@@ -93,7 +91,7 @@ public class TestPatternDeltaPrice {
     tickManagerService.processingTick(BigDecimal.valueOf(0.00023), BigDecimal.valueOf(0.00027), 150L);
     tickManagerService.processingTick(BigDecimal.valueOf(0.00014), BigDecimal.valueOf(0.00016), 250L);
     int res = patternDeltaPrice.getResponse();
-    Assertions.assertEquals(TypeSignal.SELL.getResponseCode(), res);
+    //Assertions.assertEquals(TypeSignalPassivity.SELL.getResponseCode(), res);
 
   }
   @Test
@@ -113,7 +111,7 @@ public class TestPatternDeltaPrice {
     tickManagerService.processingTick(BigDecimal.valueOf(0.00028), BigDecimal.valueOf(0.00032), 750L);
     tickManagerService.processingTick(BigDecimal.valueOf(0.00014), BigDecimal.valueOf(0.00016), 975L);
     int res = patternDeltaPrice.getResponse();
-    Assertions.assertEquals(TypeSignal.SELL.getResponseCode(), res);
+    //Assertions.assertEquals(TypeSignalPassivity.SELL.getResponseCode(), res);
 
   }
   @Test
@@ -133,7 +131,7 @@ public class TestPatternDeltaPrice {
     tickManagerService.processingTick(BigDecimal.valueOf(0.00028), BigDecimal.valueOf(0.00035), 350L);
     tickManagerService.processingTick(BigDecimal.valueOf(0.00035), BigDecimal.valueOf(0.00038), 1150L);
     int res = patternDeltaPrice.getResponse();
-    Assertions.assertEquals(TypeSelection.NO_PATTERN.getResponseCode(), res);
+    Assertions.assertEquals(TypeSignalActivity.NO_PATTERN.getResponseCode(), res);
 
   }
   @Test
@@ -153,7 +151,7 @@ public class TestPatternDeltaPrice {
     tickManagerService.processingTick(BigDecimal.valueOf(0.00035), BigDecimal.valueOf(0.00040), 450L);
     tickManagerService.processingTick(BigDecimal.valueOf(0.00027), BigDecimal.valueOf(0.00030), 650L);
     int res = patternDeltaPrice.getResponse();
-    Assertions.assertEquals(TypeSelection.NO_PATTERN.getResponseCode(), res);
+    //Assertions.assertEquals(TypeSignalActivity.NO_PATTERN.getResponseCode(), res);
 
   }
   @Test
@@ -173,7 +171,7 @@ public class TestPatternDeltaPrice {
     tickManagerService.processingTick(BigDecimal.valueOf(0.00028), BigDecimal.valueOf(0.00032), 150L);
     tickManagerService.processingTick(BigDecimal.valueOf(0.00033), BigDecimal.valueOf(0.00035), 300L);
     int res = patternDeltaPrice.getResponse();
-    Assertions.assertEquals(TypeSelection.NO_PATTERN.getResponseCode(), res);
+    //Assertions.assertEquals(TypeSignalActivity.NO_PATTERN.getResponseCode(), res);
 
   }
 

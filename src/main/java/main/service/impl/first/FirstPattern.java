@@ -1,13 +1,13 @@
 package main.service.impl.first;
 
 import java.util.HashMap;
-import main.service.AbstractPattern;
+import main.service.AbstractPatternActivity;
 import main.storage.impl.TickManagerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class FirstPattern extends AbstractPattern {
+public class FirstPattern extends AbstractPatternActivity {
 
   @Autowired
   public FirstPattern(TickManagerServiceImpl tickManagerService) {

@@ -3,8 +3,8 @@ package main.service.impl.trend;
 import java.math.BigDecimal;
 import java.util.Comparator;
 import java.util.HashMap;
-import main.enam.TypeSelection;
-import main.enam.TypeSignal;
+import main.enam.TypeSignalActivity;
+import main.enam.TypeSignalPassivity;
 import main.model.Tick;
 import main.service.PatternPrice;
 import main.storage.impl.TickManagerServiceImpl;
@@ -70,28 +70,28 @@ public class PatternDeltaPriceTrend implements PatternPrice {
 
   public int getResponse() {
     if(tickManagerService.sizeStorageTicks() < count) {
-      return TypeSelection.ERROR.getResponseCode();
+      return TypeSignalActivity.ERROR.getResponseCode();
     }
     getSelection();
-    if (checkPatternAsk()) {
-      BigDecimal resultTrendAsk = trend.getTrend(listTicks.stream().map(Tick::getPriceAsk).toList());
-      if(resultTrendAsk.compareTo(new BigDecimal(0)) > 0){
-        return resultTrendAsk.compareTo(minDeltaTrend) >= 0 ? TypeSignal.BUY.getResponseCode() : TypeSelection.NO_PATTERN.getResponseCode();
-      }
-      if(resultTrendAsk.compareTo(new BigDecimal(0)) < 0){
-        return resultTrendAsk.abs().compareTo(minDeltaTrend) >= 0 ? TypeSignal.SELL.getResponseCode() : TypeSelection.NO_PATTERN.getResponseCode();
-      }
-    }
-    if (checkPatternBid()) {
-      BigDecimal resultTrendAsk = trend.getTrend(listTicks.stream().map(Tick::getPriceBid).toList());
-      if(resultTrendAsk.compareTo(new BigDecimal(0)) > 0){
-        return resultTrendAsk.compareTo(minDeltaTrend) >= 0 ? TypeSignal.BUY.getResponseCode() : TypeSelection.NO_PATTERN.getResponseCode();
-      }
-      if(resultTrendAsk.compareTo(new BigDecimal(0)) < 0){
-        return resultTrendAsk.abs().compareTo(minDeltaTrend) >= 0 ? TypeSignal.SELL.getResponseCode() : TypeSelection.NO_PATTERN.getResponseCode();
-      }
-    }
-    return TypeSelection.NO_PATTERN.getResponseCode();
+//    if (checkPatternAsk()) {
+//      BigDecimal resultTrendAsk = trend.getTrend(listTicks.stream().map(Tick::getPriceAsk).toList());
+//      if(resultTrendAsk.compareTo(new BigDecimal(0)) > 0){
+//        return resultTrendAsk.compareTo(minDeltaTrend) >= 0 ? TypeSignalPassivity.BUY.getResponseCode() : TypeSignalActivity.NO_PATTERN.getResponseCode();
+//      }
+//      if(resultTrendAsk.compareTo(new BigDecimal(0)) < 0){
+//        return resultTrendAsk.abs().compareTo(minDeltaTrend) >= 0 ? TypeSignalPassivity.SELL.getResponseCode() : TypeSignalActivity.NO_PATTERN.getResponseCode();
+//      }
+//    }
+//    if (checkPatternBid()) {
+//      BigDecimal resultTrendAsk = trend.getTrend(listTicks.stream().map(Tick::getPriceBid).toList());
+//      if(resultTrendAsk.compareTo(new BigDecimal(0)) > 0){
+//        return resultTrendAsk.compareTo(minDeltaTrend) >= 0 ? TypeSignalPassivity.BUY.getResponseCode() : TypeSignalActivity.NO_PATTERN.getResponseCode();
+//      }
+//      if(resultTrendAsk.compareTo(new BigDecimal(0)) < 0){
+//        return resultTrendAsk.abs().compareTo(minDeltaTrend) >= 0 ? TypeSignalPassivity.SELL.getResponseCode() : TypeSignalActivity.NO_PATTERN.getResponseCode();
+//      }
+//    }
+    return TypeSignalActivity.NO_PATTERN.getResponseCode();
   }
 
   private void getSelection() {
