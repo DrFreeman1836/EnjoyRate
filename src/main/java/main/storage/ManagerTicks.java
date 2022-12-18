@@ -11,6 +11,4 @@ public interface ManagerTicks {
 
   void processingTick(BigDecimal priceAsk, BigDecimal priceBid, Long time) throws Exception;
 
-  List<Tick> getListTicks();
-
 }

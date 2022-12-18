@@ -4,9 +4,7 @@ import java.math.BigDecimal;
 import java.util.Comparator;
 import java.util.HashMap;
 import main.enam.TypeSignalActivity;
-import main.enam.TypeSignalPassivity;
 import main.model.Tick;
-import main.service.PatternPrice;
 import main.storage.impl.TickManagerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class PatternDeltaPriceTrend implements PatternPrice {
+public class PatternDeltaPriceTrend  {
 
   private long time;//ms
 
@@ -58,7 +56,7 @@ public class PatternDeltaPriceTrend implements PatternPrice {
     this.trend = trend;
   }
 
-  public void initParams(HashMap<String, Number> params) {
+  public void setParams(HashMap<String, Number> params) {
     this.time = params.get("time").intValue();
     this.count = params.get("count").intValue();
     this.deltaMaxAsk = new BigDecimal(params.get("deltaMaxAsk").toString());
@@ -95,7 +93,7 @@ public class PatternDeltaPriceTrend implements PatternPrice {
   }
 
   private void getSelection() {
-    listTicks = tickManagerService.getListTicks(count);
+    listTicks = tickManagerService.getListTickByCount(count);
     maxPriceAsk = listTicks.stream().max(Comparator.comparing(Tick::getPriceAsk)).get().getPriceAsk();
     minPriceAsk = listTicks.stream().min(Comparator.comparing(Tick::getPriceAsk)).get().getPriceAsk();
 

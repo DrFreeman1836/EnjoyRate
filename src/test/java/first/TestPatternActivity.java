@@ -5,11 +5,9 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 import main.Application;
-import main.enam.TypeSignalActivity;
-import main.service.impl.first.FirstPattern;
+import main.service.impl.first.ActivityPattern;
 import main.storage.impl.TickManagerServiceImpl;
 import main.telegram.impl.TelegramBotMessages;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -28,17 +26,17 @@ public class TestPatternActivity {
   @Autowired
   private MockMvc mockMvc;
 
-  @Autowired
+  @MockBean
   private TelegramBotMessages botMessages;
 
   @Autowired
-  private FirstPattern firstPattern;
+  private ActivityPattern activityPattern;
 
   @Autowired
   private TickManagerServiceImpl tickManagerService;
 
   @Test
-  public void getResponseTest1() throws Exception {
+  public void getResponseTest() throws Exception {
 
     HashMap<String, Number> params = new HashMap<>(Map.of(
         "time", 1000,
@@ -47,17 +45,30 @@ public class TestPatternActivity {
         "deltaMinAsk", BigDecimal.valueOf(0.00009),
         "deltaMaxBid", BigDecimal.valueOf(0.00075),
         "deltaMinBid", BigDecimal.valueOf(0.00009)));
-    firstPattern.initParams(params);
+    activityPattern.setParams(params);
 
-    tickManagerService.processingTick(BigDecimal.valueOf(0.00025), BigDecimal.valueOf(0.00025), 0L);
-    tickManagerService.processingTick(BigDecimal.valueOf(0.00028), BigDecimal.valueOf(0.00028), 350L);
-    tickManagerService.processingTick(BigDecimal.valueOf(0.00035), BigDecimal.valueOf(0.00035), 550L);
-//    int res = firstPattern.getResponse();
-//    Assertions.assertEquals(TypeSignalActivity.BID.getResponseCode(), res);
-    String requestt = "http://localhost:80/api/v1/ea/signal/activity?time=1000&count=3&deltaMaxAsk=0.00075&deltaMinAsk=0.00009&deltaMaxBid=0.00075&deltaMinBid=0.00009";
-    MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get(URI.create(requestt));
+      tickManagerService.processingTick(BigDecimal.valueOf(0.00025), BigDecimal.valueOf(0.00025), System.currentTimeMillis());
+      tickManagerService.processingTick(BigDecimal.valueOf(0.00028), BigDecimal.valueOf(0.00028), System.currentTimeMillis());
+
+    String requestString1 = "http://localhost:80/api/v1/ea/signal?priceAsk=0.00035&priceBid=0.00035&pattern=activity";
+    MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post(URI.create(requestString1));
     ResultActions result = mockMvc.perform(request);
     result.andExpect(MockMvcResultMatchers.status().is(202));
+
+    String requestString2 = "http://localhost:80/api/v1/ea/signal?priceAsk=0.00038&priceBid=0.00035&pattern=activity";
+    request = MockMvcRequestBuilders.post(URI.create(requestString2));
+    result = mockMvc.perform(request);
+    result.andExpect(MockMvcResultMatchers.status().is(200));
+
+    String requestString3 = "http://localhost:80/api/v1/ea/signal?priceAsk=0.00040&priceBid=0.00044&pattern=activity";
+    request = MockMvcRequestBuilders.post(URI.create(requestString3));
+    result = mockMvc.perform(request);
+    result.andExpect(MockMvcResultMatchers.status().is(201));
+
+    String requestString4 = "http://localhost:80/api/v1/ea/signal?priceAsk=0.00244&priceBid=0.00235&pattern=activity";
+    request = MockMvcRequestBuilders.post(URI.create(requestString4));
+    result = mockMvc.perform(request);
+    result.andExpect(MockMvcResultMatchers.status().is(404));
 
   }
 

@@ -7,10 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class FirstPattern extends AbstractPatternActivity {
+public class ActivityPattern extends AbstractPatternActivity {
 
   @Autowired
-  public FirstPattern(TickManagerServiceImpl tickManagerService) {
+  public ActivityPattern(TickManagerServiceImpl tickManagerService) {
     super(tickManagerService);
   }
 
@@ -20,7 +20,12 @@ public class FirstPattern extends AbstractPatternActivity {
   }
 
   @Override
-  public void initParams(HashMap<String, Number> params) {
-    super.initParams(params);
+  public void setParams(HashMap<String, Number> params) {
+    super.setParams(params);
+  }
+
+  @Override
+  public HashMap<String, Number> getParams() {
+    return super.getParams();
   }
 }

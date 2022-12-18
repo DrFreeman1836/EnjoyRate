@@ -4,18 +4,19 @@ import java.math.BigDecimal;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import main.enam.TypeSignalActivity;
 import main.model.Tick;
 import main.storage.impl.TickManagerServiceImpl;
 
 public abstract class AbstractPatternActivity implements PatternPrice {
 
-  private long time;//ms
-  private int count;
-  private BigDecimal deltaMaxAsk;
-  private BigDecimal deltaMinAsk;
-  private BigDecimal deltaMaxBid;
-  private BigDecimal deltaMinBid;
+  protected long time;//ms
+  protected int count;
+  protected BigDecimal deltaMaxAsk;
+  protected BigDecimal deltaMinAsk;
+  protected BigDecimal deltaMaxBid;
+  protected BigDecimal deltaMinBid;
 
   protected List<Tick> listTicks;
 
@@ -37,13 +38,22 @@ public abstract class AbstractPatternActivity implements PatternPrice {
     this.tickManagerService = tickManagerService;
   }
 
-  public void initParams(HashMap<String, Number> params) {
+  public void setParams(HashMap<String, Number> params) {
     this.time = params.get("time").intValue();
     this.count = params.get("count").intValue();
     this.deltaMaxAsk = new BigDecimal(params.get("deltaMaxAsk").toString());
     this.deltaMinAsk = new BigDecimal(params.get("deltaMinAsk").toString());
     this.deltaMaxBid = new BigDecimal(params.get("deltaMaxBid").toString());
     this.deltaMinBid = new BigDecimal(params.get("deltaMinBid").toString());
+  }
+
+  public HashMap<String, Number> getParams() {
+    return new HashMap<>(Map.of("time", time,
+        "count", count,
+        "deltaMaxAsk", deltaMaxAsk,
+        "deltaMinAsk", deltaMinAsk,
+        "deltaMaxBid", deltaMaxBid,
+        "deltaMinBid", deltaMinBid));
   }
 
   public int getResponse() {
@@ -64,7 +74,7 @@ public abstract class AbstractPatternActivity implements PatternPrice {
   }
 
   private void getSelection() {
-    listTicks = tickManagerService.getListTicks(count);//count
+    listTicks = tickManagerService.getListTickByCount(count);//count
     maxPriceAsk = listTicks.stream()
         .max(Comparator.comparing(Tick::getPriceAsk))
         .get().getPriceAsk();
