@@ -43,13 +43,14 @@ public class TickManagerServiceImpl implements ManagerTicks {
   }
 
   /**
-   *
-   * @param time
+   * Возвращает тики в указанном диапозоне времени
+   * @param timeFrom
+   * @param timeTo
    * @return
    */
-  public List<Tick> getListTickByTime(Long currentTime, Long time) {
+  public List<Tick> getListTickByTime(Long timeFrom, Long timeTo) {
     return new ArrayList<>(listTicks.stream()
-        .filter(t -> t.getTimestamp() > currentTime - time).toList());
+        .filter(t -> t.getTimestamp() <= timeFrom && t.getTimestamp() >= timeTo).toList());
   }
 
 

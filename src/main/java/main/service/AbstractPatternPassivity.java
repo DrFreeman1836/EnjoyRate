@@ -3,7 +3,7 @@ package main.service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import main.enam.TypeSignalActivity;
+import main.enam.TypeSignalPassivity;
 import main.model.Tick;
 import main.storage.impl.TickManagerServiceImpl;
 
@@ -14,9 +14,10 @@ public abstract class AbstractPatternPassivity implements PatternPrice {
   protected Integer countSecond;
   protected Long timeSecond;
 
-  protected List<Tick> listTicks;
+  protected List<Tick> listTicksFirstPeriod;
+  protected List<Tick> listTicksSecondPeriod;
 
-  private TickManagerServiceImpl tickManagerService;
+  private final TickManagerServiceImpl tickManagerService;
 
   public AbstractPatternPassivity(TickManagerServiceImpl tickManagerService) {
     this.tickManagerService = tickManagerService;
@@ -33,16 +34,20 @@ public abstract class AbstractPatternPassivity implements PatternPrice {
   @Override
   public int getResponse() {
     getSelection();
-    return 0;
+    return getPattern().equals(Boolean.TRUE)
+        ? TypeSignalPassivity.YES_PATTERN.getResponseCode()
+        : TypeSignalPassivity.NO_PATTERN.getResponseCode();
   }
 
   private void getSelection() {
-    listTicks = tickManagerService.getListTickByTime(System.currentTimeMillis(), timeFirst + timeSecond);
+    listTicksFirstPeriod = tickManagerService.getListTickByTime
+        (System.currentTimeMillis() - timeSecond, System.currentTimeMillis() - timeSecond - timeFirst);
+    listTicksSecondPeriod = tickManagerService.getListTickByTime
+        (System.currentTimeMillis(), System.currentTimeMillis() - timeSecond);
   }
 
-  private boolean getPatternByAsk() {
-
-    return false;
+  private Boolean getPattern() {
+    return listTicksFirstPeriod.size() >= countFirst && listTicksSecondPeriod.size() <= countSecond;
   }
 
   public HashMap<String, Number> getParams() {

@@ -2,9 +2,7 @@ package main.enam;
 
 public enum TypeSignalPassivity {
 
-  ASK(300),
-  BID(301),
-  ALL(302),
+  YES_PATTERN(300),
   NO_PATTERN(404),
   ERROR(400);
 

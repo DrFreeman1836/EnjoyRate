@@ -7,11 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class Passivity extends AbstractPatternPassivity {
+public class PassivityPattern extends AbstractPatternPassivity {
 
 
   @Autowired
-  public Passivity(TickManagerServiceImpl tickManagerService) {
+  public PassivityPattern(TickManagerServiceImpl tickManagerService) {
     super(tickManagerService);
   }
 

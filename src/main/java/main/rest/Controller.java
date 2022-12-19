@@ -114,7 +114,12 @@ public class Controller {
 
       if (pattern.equals("activity")) {
         int res = activityPattern.getResponse();
-        if (res != 404) bot.sendMessage(String.valueOf(res) + " новый");
+        if (res != 404) bot.sendMessage(String.valueOf(res) + " новый активный");
+        return ResponseEntity.status(res).build();
+      }
+      if (pattern.equals("passivity")) {
+        int res = activityPattern.getResponse();
+        if (res != 404) bot.sendMessage(String.valueOf(res) + " новый пассивный");
         return ResponseEntity.status(res).build();
       }
 
@@ -125,30 +130,5 @@ public class Controller {
     }
     return ResponseEntity.status(405).build();
   }
-
-//  @GetMapping("/signal/passivity")
-//  public ResponseEntity<?> getSignalPassivity(
-//      @RequestParam(name = "countActivity") Integer countActivity,
-//      @RequestParam(name = "timeActivity") Long timeActivity,
-//      @RequestParam(name = "mediumSizeTick") BigDecimal mediumSize,
-//      @RequestParam(name = "countPassivity") Integer countPassivity,
-//      @RequestParam(name = "timePassivity") Long timePassivity) {
-//
-//    try {
-//      passivityPattern.initParams(new HashMap<>(Map.of(
-//          "countActivity", countActivity,
-//          "timeActivity", timeActivity,
-//          "mediumSizeTick", mediumSize,
-//          "countPassivity", countPassivity,
-//          "timePassivity", timePassivity)));
-//      int res = passivityPattern.getResponse();
-//      if(res != 404) bot.sendMessage(String.valueOf(res) + " залипание");
-//      return ResponseEntity.status(res).build();
-//    } catch (Exception ex) {
-//      bot.sendMessage(ex.toString());
-//      return ResponseEntity.status(500).build();
-//    }
-//
-//  }
 
 }
