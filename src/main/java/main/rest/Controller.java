@@ -75,6 +75,7 @@ public class Controller {
             "deltaMinAsk", deltaMinAsk == null ? activityPattern.getParams().get("deltaMinAsk") : deltaMinAsk,
             "deltaMaxBid", deltaMaxBid == null ? activityPattern.getParams().get("deltaMaxBid") : deltaMaxBid,
             "deltaMinBid", deltaMinBid == null ? activityPattern.getParams().get("deltaMinBid") : deltaMinBid)));
+        return ResponseEntity.ok("Настройки не установлены");
       }
 
       if (pattern.equals("passivity")) {
@@ -84,6 +85,7 @@ public class Controller {
             "countSecond", countSecond,
             "timeSecond", timeSecond
         )));
+        return ResponseEntity.ok("Настройки не установлены");
       }
     } catch (Exception ex) {
       ex.printStackTrace();
