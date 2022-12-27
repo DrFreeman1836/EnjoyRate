@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <title>Setting patterns</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+    <form action="#" method="post " enctype="multipart/form-data"></form>
+<div class="menu">
+    <p>patterns</p>
+    <div class="menu__list">
+        <a class="activity" href="javascript:void(0)">activity</a>
+        <a class="passivity" href="javascript:void(0)">passivity</a>
+    </div>
+</div>
+<div id="block_id1" class="activity__list">
+        <span>time</span><input id="time" type="text" name="text" value=""> <br>
+        <span>count</span><input id="count" type="text" name="text" value=""> <br>
+        <span>deltaMaxAsk</span><input id="deltaMaxAsk" type="text" name="text" value=""> <br>
+        <span>deltaMinAsk</span><input id="deltaMinAsk" type="text" name="text" value=""> <br>
+        <span>deltaMaxBid</span><input id="deltaMaxBid" type="text" name="text" value=""> <br>
+        <span>deltaMinBid</span><input id="deltaMinBid" type="text" name="text" value=""> <br>
+       
+</div>
+<div id="block_id2" class="passivity__list">
+    <span>countFirst</span><input id="countFirst" type="text" name="text" value=""> <br>
+    <span>timeFirst</span><input id="timeFirst" type="text" name="text" value=""> <br>
+    <span>countSecond</span><input id="countSecond" type="text" name="text" value=""> <br>
+    <span>timeSecond</span><input id="timeSecond" type="text" name="text" value=""> <br>
+    </div>
+<button onclick="writeValues()" id="send" class="send" type="button">Send</button>
+<script src="/js/work.js"></script>
+<hr>
+    <button onclick="getSetting()" id="get" class="get" type="button">Get</button>
+<div class="container" id="containerId">
+    <div class="activity">
+        <p>activity</p>
+        <span>time</span><input class="time" type="text" name="text" value=""> <br>
+        <span>count</span><input class="count" type="text" name="text" value=""> <br>
+        <span>deltaMaxAsk</span><input class="deltaMaxAsk" type="text" name="text" value=""> <br>
+        <span>deltaMinAsk</span><input class="deltaMinAsk" type="text" name="text" value=""> <br>
+        <span>deltaMaxBid</span><input class="deltaMaxBid" type="text" name="text" value=""> <br>
+        <span>deltaMinBid</span><input class="deltaMinBid" type="text" name="text" value=""> <br>
+    </div>
+    <div class="passivity">
+        <p>passivity</p>
+        <span>countFirst</span><input class="countFirst" type="text" name="text" value=""> <br>
+        <span>timeFirst</span><input class="timeFirst" type="text" name="text" value=""> <br>
+        <span>countSecond</span><input class="countSecond" type="text" name="text" value=""> <br>
+        <span>timeSecond</span><input class="timeSecond" type="text" name="text" value=""> <br>
+    </div>
+</div>
+</body>
+</html>
+
+

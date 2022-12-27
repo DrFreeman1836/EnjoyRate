@@ -1,0 +1,150 @@
+@import url("../css/null.css");
+body{
+    min-height: 100%;
+    position: relative;
+}
+
+a{
+    display: block;
+    color: black;
+}
+.passivity__list{
+    display:none;
+    max-width: 50%;
+    margin: 0 auto;
+    padding: 100px 0 0 0;
+    text-align: center;
+    
+    span{
+        display: inline-block;
+        width: 200px;
+        float: left;
+        display: block;
+        margin: 5px 0 0 200px;
+        text-align: center;
+        font-size: 20px;
+        padding: 0 0 0 100px;
+
+
+    }
+    input{
+        margin: 0 0 20px 20px;
+        border: 1px solid grey;
+        width: 200px;
+        height: 30px;
+        display: inline;
+        font-size: 20px;
+
+    }
+}
+.activity__list{
+
+    display:none;
+    max-width: 50%;
+    margin: 0 auto;
+    padding: 100px 0 0 0;
+    text-align: center;
+    
+    span{
+        display: inline-block;
+        width: 200px;
+        float: left;
+        display: block;
+        margin: 5px 0 0 200px;
+        text-align: center;
+        font-size: 20px;
+        padding: 0 0 0 100px;
+
+
+    }
+    input{
+        margin: 0 0 20px 20px;
+        border: 1px solid grey;
+        width: 200px;
+        height: 30px;
+        display: inline;
+        font-size: 20px;
+
+    }
+}
+.menu{
+    
+    font-size: 30px;
+    margin: 30px 50%;
+    position: relative;
+    display:inline-block;
+    &:hover .menu__list{
+        display: block;
+    }
+    p{
+        font-size: 40px;
+    
+    &:hover{
+        text-shadow: 5px 5px 20px #000;
+    }
+    }
+
+.menu__list{
+    padding: 30px 0;
+    position: absolute;
+    display: none;
+    button{
+        font-size: 25px;
+        line-height: 15px;
+    }
+   }
+}
+.send{
+    display: block;
+    font-size: 30px;
+    margin: 70px 52% 20px;
+    background: rgba(153, 197, 231, 0.529);
+    border-radius: 12px ;
+}
+.get{
+    position: absolute;
+    display: block;
+    font-size: 30px;
+    background: rgb(153, 197, 231, 0.529);
+    border-radius: 12px ;
+    left: 150px;
+    top: 600px;
+}
+.container{
+   position: absolute; 
+   float: left;
+   top: 150px;
+   left: 40px;
+   font-size: 20px;
+   input{
+    margin: 0 0 5px 0;
+    height: 24px;
+    width: 150px;
+    border: 1px solid;
+    padding: 4px 0 0px 0;
+
+   }
+   span{
+    display: inline-block;
+    width: 120px;
+   }
+   .activity{
+    margin: 0 0 30px 0;
+    p{
+        height: 30px;
+        width: 80px;
+        font-size: 25px;
+        margin: 0 0 10px 100px;
+        border-bottom: 2px solid #060606;
+    }
+   }
+   .passivity{
+    p{
+        height: 30px;
+        width: 80px;
+        font-size: 25px;
+        margin: 0 0 10px 100px;
+        border-bottom: 2px solid #060606;
+    }
+   }
+}

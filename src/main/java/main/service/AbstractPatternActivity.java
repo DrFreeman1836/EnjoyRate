@@ -11,12 +11,12 @@ import main.storage.impl.TickManagerServiceImpl;
 
 public abstract class AbstractPatternActivity implements PatternPrice {
 
-  protected long time;//ms
-  protected int count;
-  protected BigDecimal deltaMaxAsk;
-  protected BigDecimal deltaMinAsk;
-  protected BigDecimal deltaMaxBid;
-  protected BigDecimal deltaMinBid;
+  protected Long time = 260L;
+  protected Integer count = 9;
+  protected BigDecimal deltaMaxAsk = BigDecimal.valueOf(0.00010);
+  protected BigDecimal deltaMinAsk = BigDecimal.valueOf(0.000003);
+  protected BigDecimal deltaMaxBid = BigDecimal.valueOf(0.00010);
+  protected BigDecimal deltaMinBid = BigDecimal.valueOf(0.00003);
 
   protected List<Tick> listTicks;
 
@@ -39,7 +39,7 @@ public abstract class AbstractPatternActivity implements PatternPrice {
   }
 
   public void setParams(HashMap<String, Number> params) {
-    this.time = params.get("time").intValue();
+    this.time = params.get("time").longValue();
     this.count = params.get("count").intValue();
     this.deltaMaxAsk = new BigDecimal(params.get("deltaMaxAsk").toString());
     this.deltaMinAsk = new BigDecimal(params.get("deltaMinAsk").toString());

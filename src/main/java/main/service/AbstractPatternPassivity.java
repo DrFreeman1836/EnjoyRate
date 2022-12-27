@@ -9,10 +9,10 @@ import main.storage.impl.TickManagerServiceImpl;
 
 public abstract class AbstractPatternPassivity implements PatternPrice {
 
-  protected Integer countFirst;
-  protected Long timeFirst;
-  protected Integer countSecond;
-  protected Long timeSecond;
+  protected Integer countFirst = 100;
+  protected Long timeFirst = 10000L;
+  protected Integer countSecond = 1;
+  protected Long timeSecond = 1000L;
 
   protected List<Tick> listTicksFirstPeriod;
   protected List<Tick> listTicksSecondPeriod;

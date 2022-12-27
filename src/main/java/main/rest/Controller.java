@@ -1,8 +1,13 @@
 package main.rest;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import main.dto.SettingDto;
+import main.dto.SettingPatternsDto;
 import main.service.PatternPrice;
 import main.storage.ManagerTicks;
 import main.telegram.impl.TelegramBotMessages;
@@ -13,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -53,39 +59,28 @@ public class Controller {
   }
 
   @PutMapping("/params")
-  public ResponseEntity<?> setParams(
-      @RequestParam(name = "pattern") String pattern,
-      @RequestParam(name = "time", required = false) Long time,
-      @RequestParam(name = "count", required = false) Integer count,
-      @RequestParam(name = "deltaMaxAsk", required = false) BigDecimal deltaMaxAsk,
-      @RequestParam(name = "deltaMinAsk", required = false) BigDecimal deltaMinAsk,
-      @RequestParam(name = "deltaMaxBid", required = false) BigDecimal deltaMaxBid,
-      @RequestParam(name = "deltaMinBid", required = false) BigDecimal deltaMinBid,
-
-      @RequestParam(name = "countFirst", required = false) Integer countFirst,
-      @RequestParam(name = "timeFirst", required = false) Long timeFirst,
-      @RequestParam(name = "countSecond", required = false) Integer countSecond,
-      @RequestParam(name = "timeSecond", required = false) Long timeSecond) {
+  public ResponseEntity<?> setParams(@RequestBody SettingPatternsDto setting) {
+    System.out.println(setting);
     try {
-      if (pattern.equals("activity")) {
+      if (setting.getPattern().equals("activity")) {
         activityPattern.setParams(new HashMap<>(Map.of(
-            "time", time == null ? activityPattern.getParams().get("time") : time,
-            "count", count == null ? activityPattern.getParams().get("count") : count,
-            "deltaMaxAsk", deltaMaxAsk == null ? activityPattern.getParams().get("deltaMaxAsk") : deltaMaxAsk,
-            "deltaMinAsk", deltaMinAsk == null ? activityPattern.getParams().get("deltaMinAsk") : deltaMinAsk,
-            "deltaMaxBid", deltaMaxBid == null ? activityPattern.getParams().get("deltaMaxBid") : deltaMaxBid,
-            "deltaMinBid", deltaMinBid == null ? activityPattern.getParams().get("deltaMinBid") : deltaMinBid)));
-        return ResponseEntity.ok("Настройки не установлены");
+            "time", setting.getTime() == null ? activityPattern.getParams().get("time") : setting.getTime(),
+            "count", setting.getCount() == null ? activityPattern.getParams().get("count") : setting.getCount(),
+            "deltaMaxAsk", setting.getDeltaMaxAsk() == null ? activityPattern.getParams().get("deltaMaxAsk") : setting.getDeltaMaxAsk(),
+            "deltaMinAsk", setting.getDeltaMinAsk() == null ? activityPattern.getParams().get("deltaMinAsk") : setting.getDeltaMinAsk(),
+            "deltaMaxBid", setting.getDeltaMaxBid() == null ? activityPattern.getParams().get("deltaMaxBid") : setting.getDeltaMaxBid(),
+            "deltaMinBid", setting.getDeltaMinBid() == null ? activityPattern.getParams().get("deltaMinBid") : setting.getDeltaMinBid())));
+        return ResponseEntity.ok("Настройки установлены");
       }
 
-      if (pattern.equals("passivity")) {
+      if (setting.getPattern().equals("passivity")) {
         passivityPattern.setParams(new HashMap<>(Map.of(
-            "countFirst", countFirst,
-            "timeFirst", timeFirst,
-            "countSecond", countSecond,
-            "timeSecond", timeSecond
+            "countFirst", setting.getCountFirst() == null ? passivityPattern.getParams().get("countFirst") : setting.getCountFirst(),
+            "timeFirst", setting.getTimeFirst() == null ? passivityPattern.getParams().get("timeFirst") : setting.getTimeFirst(),
+            "countSecond", setting.getCountSecond() == null ? passivityPattern.getParams().get("countSecond") : setting.getCountSecond(),
+            "timeSecond", setting.getTimeSecond() == null ? passivityPattern.getParams().get("timeSecond") : setting.getTimeSecond()
         )));
-        return ResponseEntity.ok("Настройки не установлены");
+        return ResponseEntity.ok("Настройки установлены");
       }
     } catch (Exception ex) {
       ex.printStackTrace();
@@ -95,14 +90,15 @@ public class Controller {
   }
 
   @GetMapping("/params")
-  public ResponseEntity<?> getParams(@RequestParam(name = "pattern") String pattern) {
-    if (pattern.equals("activity")) {
-      return ResponseEntity.ok(activityPattern.getParams());
+  public List<SettingDto> getParams() {
+    List<SettingDto> list = new ArrayList<>();
+    for(Entry<String, Number> set : activityPattern.getParams().entrySet()) {
+      list.add(SettingDto.builder().pattern("activity").name(set.getKey()).value(set.getValue()).build());
     }
-    if (pattern.equals("passivity")) {
-      return ResponseEntity.ok(passivityPattern.getParams());
+    for(Entry<String, Number> set : passivityPattern.getParams().entrySet()) {
+      list.add(SettingDto.builder().pattern("passivity").name(set.getKey()).value(set.getValue()).build());
     }
-    return ResponseEntity.status(400).body("Передано неверное имя паттерна");
+    return list;
   }
 
   @PostMapping("/signal")
