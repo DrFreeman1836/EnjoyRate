@@ -5,7 +5,7 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 import main.Application;
-import main.service.impl.first.ActivityPattern;
+import main.service.impl.activity.ActivityPattern;
 import main.storage.impl.TickManagerServiceImpl;
 import main.telegram.impl.TelegramBotMessages;
 import org.junit.jupiter.api.Test;

@@ -33,12 +33,20 @@ public class Controller {
 
   private PatternPrice passivityPattern;
 
+  private PatternPrice multiPattern;
+
   private TelegramBotMessages bot;
 
   @Autowired
   @Qualifier("tickManagerServiceImpl")
   public void setTickManagerService(TickManagerServiceImpl tickManagerService) {
     this.tickManagerService = tickManagerService;
+  }
+
+  @Autowired
+  @Qualifier("multiPattern")
+  public void setMultiPattern(PatternPrice multiPattern) {
+    this.multiPattern = multiPattern;
   }
 
   @Autowired
@@ -70,6 +78,17 @@ public class Controller {
             "deltaMinAsk", setting.getDeltaMinAsk() == null ? activityPattern.getParams().get("deltaMinAsk") : setting.getDeltaMinAsk(),
             "deltaMaxBid", setting.getDeltaMaxBid() == null ? activityPattern.getParams().get("deltaMaxBid") : setting.getDeltaMaxBid(),
             "deltaMinBid", setting.getDeltaMinBid() == null ? activityPattern.getParams().get("deltaMinBid") : setting.getDeltaMinBid())));
+
+        multiPattern.setParams(new HashMap<>(Map.of(
+            "highLevel", setting.getHighLevel() == null ? multiPattern.getParams().get("highLevel") : setting.getHighLevel(),
+            "middleLevel", setting.getMiddleLevel() == null ? multiPattern.getParams().get("middleLevel") : setting.getMiddleLevel(),
+            "lowLevel", setting.getLowLevel() == null ? multiPattern.getParams().get("lowLevel") : setting.getLowLevel(),
+            "time", setting.getTime() == null ? multiPattern.getParams().get("time") : setting.getTime(),
+            "count", setting.getCount() == null ? multiPattern.getParams().get("count") : setting.getCount(),
+            "deltaMaxAsk", setting.getDeltaMaxAsk() == null ? multiPattern.getParams().get("deltaMaxAsk") : setting.getDeltaMaxAsk(),
+            "deltaMinAsk", setting.getDeltaMinAsk() == null ? multiPattern.getParams().get("deltaMinAsk") : setting.getDeltaMinAsk(),
+            "deltaMaxBid", setting.getDeltaMaxBid() == null ? multiPattern.getParams().get("deltaMaxBid") : setting.getDeltaMaxBid(),
+            "deltaMinBid", setting.getDeltaMinBid() == null ? multiPattern.getParams().get("deltaMinBid") : setting.getDeltaMinBid())));
         return ResponseEntity.ok("Настройки установлены");
       }
 
@@ -95,6 +114,12 @@ public class Controller {
     for(Entry<String, Number> set : activityPattern.getParams().entrySet()) {
       list.add(SettingDto.builder().pattern("activity").name(set.getKey()).value(set.getValue()).build());
     }
+    list.add(SettingDto.builder().pattern("activity").name("highLevel").value(multiPattern.getParams()
+        .get("highLevel")).build());
+    list.add(SettingDto.builder().pattern("activity").name("middleLevel").value(multiPattern.getParams()
+        .get("middleLevel")).build());
+    list.add(SettingDto.builder().pattern("activity").name("lowLevel").value(multiPattern.getParams()
+        .get("lowLevel")).build());
     for(Entry<String, Number> set : passivityPattern.getParams().entrySet()) {
       list.add(SettingDto.builder().pattern("passivity").name(set.getKey()).value(set.getValue()).build());
     }
@@ -116,8 +141,13 @@ public class Controller {
         return ResponseEntity.status(res).build();
       }
       if (pattern.equals("passivity")) {
-        int res = activityPattern.getResponse();
+        int res = passivityPattern.getResponse();
         if (res != 404) bot.sendMessage(String.valueOf(res) + " новый пассивный");
+        return ResponseEntity.status(res).build();
+      }
+      if (pattern.equals("multi")) {
+        int res = multiPattern.getResponse();
+        if (res != 404) bot.sendMessage(String.valueOf(res) + " новый мульти");
         return ResponseEntity.status(res).build();
       }
 

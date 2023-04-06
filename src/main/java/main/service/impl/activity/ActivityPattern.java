@@ -1,4 +1,4 @@
-package main.service.impl.first;
+package main.service.impl.activity;
 
 import java.util.HashMap;
 import main.service.AbstractPatternActivity;

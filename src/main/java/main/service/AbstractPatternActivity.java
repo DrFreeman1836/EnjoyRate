@@ -14,7 +14,7 @@ public abstract class AbstractPatternActivity implements PatternPrice {
   protected Long time = 260L;
   protected Integer count = 9;
   protected BigDecimal deltaMaxAsk = BigDecimal.valueOf(0.00010);
-  protected BigDecimal deltaMinAsk = BigDecimal.valueOf(0.000003);
+  protected BigDecimal deltaMinAsk = BigDecimal.valueOf(0.00003);
   protected BigDecimal deltaMaxBid = BigDecimal.valueOf(0.00010);
   protected BigDecimal deltaMinBid = BigDecimal.valueOf(0.00003);
 
