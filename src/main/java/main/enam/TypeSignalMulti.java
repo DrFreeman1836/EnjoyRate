@@ -1,6 +1,6 @@
 package main.enam;
 
-public enum TypeSignalDifferent {
+public enum TypeSignalMulti {
 
   LOW_LEVEL(200),
   MIDDLE_LEVEL(201),
@@ -10,7 +10,7 @@ public enum TypeSignalDifferent {
 
   private final int responseCode;
 
-  TypeSignalDifferent(int responseCode) {
+  TypeSignalMulti(int responseCode) {
     this.responseCode = responseCode;
   }
 

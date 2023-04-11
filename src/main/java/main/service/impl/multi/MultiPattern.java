@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import main.enam.TypeSignalDifferent;
+import main.enam.TypeSignalMulti;
 import main.service.AbstractPatternActivity;
 import main.storage.impl.TickManagerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,18 +27,18 @@ public class MultiPattern extends AbstractPatternActivity {
   public int getResponse() {
     setLevelSettings(HIGH_LEVEL);
     if (checkResponse.contains(super.getResponse())) {
-      return TypeSignalDifferent.HIGH_LEVEL.getResponseCode();
+      return TypeSignalMulti.HIGH_LEVEL.getResponseCode();
     }
     setLevelSettings(MIDDLE_LEVEL);
     if (checkResponse.contains(super.getResponse())) {
-      return TypeSignalDifferent.MIDDLE_LEVEL.getResponseCode();
+      return TypeSignalMulti.MIDDLE_LEVEL.getResponseCode();
     }
     setLevelSettings(LOW_LEVEL);
     if (checkResponse.contains(super.getResponse())) {
-      return TypeSignalDifferent.LOW_LEVEL.getResponseCode();
+      return TypeSignalMulti.LOW_LEVEL.getResponseCode();
     }
 
-    return TypeSignalDifferent.NO_PATTERN.getResponseCode();
+    return TypeSignalMulti.NO_PATTERN.getResponseCode();
   }
 
   private void setLevelSettings(Integer level) {
