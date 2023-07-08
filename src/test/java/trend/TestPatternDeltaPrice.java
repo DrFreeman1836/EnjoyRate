@@ -1,16 +1,9 @@
 package trend;
 
 
-import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
 import main.Application;
-import main.enam.TypeSignalActivity;
-import main.service.impl.trend.PatternDeltaPriceTrend;
 import main.telegram.impl.TelegramBotMessages;
 import main.storage.impl.TickManagerServiceImpl;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,9 +19,6 @@ public class TestPatternDeltaPrice {
 
   @MockBean
   private TelegramBotMessages botMessages;
-
-  @Autowired
-  private PatternDeltaPriceTrend patternDeltaPrice;
 
   @Autowired
   private TickManagerServiceImpl tickManagerService;
