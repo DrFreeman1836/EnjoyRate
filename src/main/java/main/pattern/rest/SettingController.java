@@ -37,12 +37,12 @@ public class SettingController {
 
   @PutMapping("/activity")
   public ResponseEntity<?> setActivityPattern(
-      @RequestParam(name = "time", required = false) Integer time,
-      @RequestParam(name = "count", required = false) Long count,
-      @RequestParam(name = "deltaMaxAsk", required = false) BigDecimal deltaMaxAsk,
-      @RequestParam(name = "deltaMinAsk", required = false) BigDecimal deltaMinAsk,
-      @RequestParam(name = "deltaMaxBid", required = false) BigDecimal deltaMaxBid,
-      @RequestParam(name = "deltaMinBid", required = false) BigDecimal deltaMinBid
+      @RequestParam(name = "time") Integer time,
+      @RequestParam(name = "count") Long count,
+      @RequestParam(name = "deltaMaxAsk") BigDecimal deltaMaxAsk,
+      @RequestParam(name = "deltaMinAsk") BigDecimal deltaMinAsk,
+      @RequestParam(name = "deltaMaxBid") BigDecimal deltaMaxBid,
+      @RequestParam(name = "deltaMinBid") BigDecimal deltaMinBid
   ) {
     try {
       activityPattern.setParams(new HashMap<>(Map.of(
@@ -53,7 +53,7 @@ public class SettingController {
           "deltaMaxBid", deltaMaxBid == null ? activityPattern.getParams().get("deltaMaxBid") : deltaMaxBid,
           "deltaMinBid", deltaMinBid == null ? activityPattern.getParams().get("deltaMinBid") : deltaMinBid)));
     } catch (Exception e) {
-      logger.error("activity no set settings");
+      logger.error("activity no set settings, error: " + e.getMessage());
       return ResponseEntity.status(400).build();
     }
     return ResponseEntity.ok().build();
@@ -61,10 +61,10 @@ public class SettingController {
 
   @PutMapping("/passivity")
   public ResponseEntity<?> setPassivityPattern(
-      @RequestParam(name = "countFirst", required = false) Integer countFirst,
-      @RequestParam(name = "timeFirst", required = false) Long timeFirst,
-      @RequestParam(name = "countSecond", required = false) Integer countSecond,
-      @RequestParam(name = "timeSecond", required = false) Long timeSecond) {
+      @RequestParam(name = "countFirst") Integer countFirst,
+      @RequestParam(name = "timeFirst") Long timeFirst,
+      @RequestParam(name = "countSecond") Integer countSecond,
+      @RequestParam(name = "timeSecond") Long timeSecond) {
     try {
       passivityPattern.setParams(new HashMap<>(Map.of(
           "countFirst",
@@ -77,7 +77,7 @@ public class SettingController {
           timeSecond == null ? passivityPattern.getParams().get("timeSecond") : timeSecond
       )));
     } catch (Exception e) {
-      logger.error("passivity no set settings");
+      logger.error("passivity no set settings, error: " + e.getMessage());
       return ResponseEntity.status(400).build();
     }
     return ResponseEntity.ok().build();
@@ -85,14 +85,14 @@ public class SettingController {
 
   @PutMapping("/multi")
   public ResponseEntity<?> setMultiPattern(
-      @RequestParam(name = "lowLevel", required = false) Integer lowLevel,
-      @RequestParam(name = "highLevel", required = false) Integer highLevel,
-      @RequestParam(name = "middleLevel", required = false) Integer middleLevel,
-      @RequestParam(name = "time", required = false) Integer time,
-      @RequestParam(name = "deltaMaxAsk", required = false) BigDecimal deltaMaxAsk,
-      @RequestParam(name = "deltaMinAsk", required = false) BigDecimal deltaMinAsk,
-      @RequestParam(name = "deltaMaxBid", required = false) BigDecimal deltaMaxBid,
-      @RequestParam(name = "deltaMinBid", required = false) BigDecimal deltaMinBid) {
+      @RequestParam(name = "lowLevel") Integer lowLevel,
+      @RequestParam(name = "highLevel") Integer highLevel,
+      @RequestParam(name = "middleLevel") Integer middleLevel,
+      @RequestParam(name = "time") Integer time,
+      @RequestParam(name = "deltaMaxAsk") BigDecimal deltaMaxAsk,
+      @RequestParam(name = "deltaMinAsk") BigDecimal deltaMinAsk,
+      @RequestParam(name = "deltaMaxBid") BigDecimal deltaMaxBid,
+      @RequestParam(name = "deltaMinBid") BigDecimal deltaMinBid) {
     try {
       multiPattern.setParams(new HashMap<>(Map.of(
           "count", multiPattern.getParams().get("count"),
@@ -105,8 +105,7 @@ public class SettingController {
           "deltaMaxBid", deltaMaxBid == null ? multiPattern.getParams().get("deltaMaxBid") : deltaMaxBid,
           "deltaMinBid", deltaMinBid == null ? multiPattern.getParams().get("deltaMinBid") : deltaMinBid)));
     } catch (Exception e) {
-      e.printStackTrace();
-      logger.error("multi no set settings");
+      logger.error("multi no set settings, error: " + e.getMessage());
       return ResponseEntity.status(400).build();
     }
     return ResponseEntity.ok().build();
