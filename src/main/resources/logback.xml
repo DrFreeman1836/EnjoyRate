@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+  <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <appender name="tcpController" class="ch.qos.logback.core.FileAppender">
+    <file>ErrorTickProcessingByTcp.log</file>
+    <encoder>
+      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+    </encoder>
+  </appender>
+  <appender name="controller" class="ch.qos.logback.core.FileAppender">
+    <file>ResponseSignals.log</file>
+    <encoder>
+      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <logger name="main.price_storage.controller.TcpInputService" level="DEBUG">
+    <appender-ref ref="tcpController"/>
+  </logger>
+  <logger name="main.pattern.rest.Controller" level="INFO">
+    <appender-ref ref="controller"/>
+  </logger>
+
+  <root level="INFO">
+    <appender-ref ref="Console"/>
+  </root>
+
+</configuration>
