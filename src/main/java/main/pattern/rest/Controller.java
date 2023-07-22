@@ -72,7 +72,10 @@ public class Controller {
       }
     }
 
-    if (!sbLog.isEmpty()) logger.info(sbLog.toString());
+    if (!sbLog.isEmpty()) {
+      logger.info(sbLog.toString());
+      bot.sendMessage(sbLog.toString());
+    }
     return ResponseEntity.status(200).body(rsSignal);
   }
 

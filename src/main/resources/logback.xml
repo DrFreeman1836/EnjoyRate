@@ -19,12 +19,21 @@
       <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
     </encoder>
   </appender>
+  <appender name="notification" class="ch.qos.logback.core.FileAppender">
+    <file>Notification.log</file>
+    <encoder>
+      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+    </encoder>
+  </appender>
 
   <logger name="main.price_storage.controller.TcpInputService" level="DEBUG">
     <appender-ref ref="tcpController"/>
   </logger>
   <logger name="main.pattern.rest.Controller" level="INFO">
     <appender-ref ref="controller"/>
+  </logger>
+  <logger name="main.notification.impl.TelegramBotMessages" level="ERROR">
+    <appender-ref ref="notification"/>
   </logger>
 
   <root level="INFO">
