@@ -1,105 +1,126 @@
 package main.pattern.rest;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import lombok.RequiredArgsConstructor;
 import main.pattern.dto.SettingDto;
-import main.pattern.dto.SettingPatternsDto;
 import main.pattern.service.PatternPrice;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("api/v1/ea")
+@RequestMapping("api/v1/ea/params")
+@RequiredArgsConstructor
 public class SettingController {
 
-  private PatternPrice activityPattern;
-
-  private PatternPrice passivityPattern;
-
-  private PatternPrice multiPattern;
-
-
-  @Autowired
-  @Qualifier("multiPattern")
-  public void setMultiPattern(PatternPrice multiPattern) {
-    this.multiPattern = multiPattern;
-  }
-
-  @Autowired
-  @Qualifier("passivityPattern")
-  public void setPassivityPattern(PatternPrice passivityPattern) {
-    this.passivityPattern = passivityPattern;
-  }
-
-  @Autowired
   @Qualifier("activityPattern")
-  public void setActivityPattern(PatternPrice activityPattern) {
-    this.activityPattern = activityPattern;
-  }
+  private final PatternPrice activityPattern;
 
-  @PutMapping("/params")
-  public ResponseEntity<?> setParams(@RequestBody SettingPatternsDto setting) {
-    System.out.println(setting);
+  @Qualifier("passivityPattern")
+  private final PatternPrice passivityPattern;
+
+  @Qualifier("multiPattern")
+  private final  PatternPrice multiPattern;
+
+  private final Logger logger = LoggerFactory.getLogger(SettingController.class);
+
+  @PutMapping("/activity")
+  public ResponseEntity<?> setActivityPattern(
+      @RequestParam(name = "time", required = false) Integer time,
+      @RequestParam(name = "count", required = false) Long count,
+      @RequestParam(name = "deltaMaxAsk", required = false) BigDecimal deltaMaxAsk,
+      @RequestParam(name = "deltaMinAsk", required = false) BigDecimal deltaMinAsk,
+      @RequestParam(name = "deltaMaxBid", required = false) BigDecimal deltaMaxBid,
+      @RequestParam(name = "deltaMinBid", required = false) BigDecimal deltaMinBid
+  ) {
     try {
-      if (setting.getPattern().equals("activity")) {
-        activityPattern.setParams(new HashMap<>(Map.of(
-            "time", setting.getTime() == null ? activityPattern.getParams().get("time") : setting.getTime(),
-            "count", setting.getCount() == null ? activityPattern.getParams().get("count") : setting.getCount(),
-            "deltaMaxAsk", setting.getDeltaMaxAsk() == null ? activityPattern.getParams().get("deltaMaxAsk") : setting.getDeltaMaxAsk(),
-            "deltaMinAsk", setting.getDeltaMinAsk() == null ? activityPattern.getParams().get("deltaMinAsk") : setting.getDeltaMinAsk(),
-            "deltaMaxBid", setting.getDeltaMaxBid() == null ? activityPattern.getParams().get("deltaMaxBid") : setting.getDeltaMaxBid(),
-            "deltaMinBid", setting.getDeltaMinBid() == null ? activityPattern.getParams().get("deltaMinBid") : setting.getDeltaMinBid())));
-
-        multiPattern.setParams(new HashMap<>(Map.of(
-            "highLevel", setting.getHighLevel() == null ? multiPattern.getParams().get("highLevel") : setting.getHighLevel(),
-            "middleLevel", setting.getMiddleLevel() == null ? multiPattern.getParams().get("middleLevel") : setting.getMiddleLevel(),
-            "lowLevel", setting.getLowLevel() == null ? multiPattern.getParams().get("lowLevel") : setting.getLowLevel(),
-            "time", setting.getTime() == null ? multiPattern.getParams().get("time") : setting.getTime(),
-            "count", setting.getCount() == null ? multiPattern.getParams().get("count") : setting.getCount(),
-            "deltaMaxAsk", setting.getDeltaMaxAsk() == null ? multiPattern.getParams().get("deltaMaxAsk") : setting.getDeltaMaxAsk(),
-            "deltaMinAsk", setting.getDeltaMinAsk() == null ? multiPattern.getParams().get("deltaMinAsk") : setting.getDeltaMinAsk(),
-            "deltaMaxBid", setting.getDeltaMaxBid() == null ? multiPattern.getParams().get("deltaMaxBid") : setting.getDeltaMaxBid(),
-            "deltaMinBid", setting.getDeltaMinBid() == null ? multiPattern.getParams().get("deltaMinBid") : setting.getDeltaMinBid())));
-        return ResponseEntity.ok("Настройки установлены");
-      }
-
-      if (setting.getPattern().equals("passivity")) {
-        passivityPattern.setParams(new HashMap<>(Map.of(
-            "countFirst", setting.getCountFirst() == null ? passivityPattern.getParams().get("countFirst") : setting.getCountFirst(),
-            "timeFirst", setting.getTimeFirst() == null ? passivityPattern.getParams().get("timeFirst") : setting.getTimeFirst(),
-            "countSecond", setting.getCountSecond() == null ? passivityPattern.getParams().get("countSecond") : setting.getCountSecond(),
-            "timeSecond", setting.getTimeSecond() == null ? passivityPattern.getParams().get("timeSecond") : setting.getTimeSecond()
-        )));
-        return ResponseEntity.ok("Настройки установлены");
-      }
-    } catch (Exception ex) {
-      ex.printStackTrace();
-      return ResponseEntity.status(404).body("Настройки не установлены");
+      activityPattern.setParams(new HashMap<>(Map.of(
+          "time", time == null ? activityPattern.getParams().get("time") : time,
+          "count", count == null ? activityPattern.getParams().get("count") : count,
+          "deltaMaxAsk", deltaMaxAsk == null ? activityPattern.getParams().get("deltaMaxAsk") : deltaMaxAsk,
+          "deltaMinAsk", deltaMinAsk == null ? activityPattern.getParams().get("deltaMinAsk") : deltaMinAsk,
+          "deltaMaxBid", deltaMaxBid == null ? activityPattern.getParams().get("deltaMaxBid") : deltaMaxBid,
+          "deltaMinBid", deltaMinBid == null ? activityPattern.getParams().get("deltaMinBid") : deltaMinBid)));
+    } catch (Exception e) {
+      logger.error("activity no set settings");
+      return ResponseEntity.status(400).build();
     }
-    return ResponseEntity.status(400).body("Передано неверное имя паттерна");
+    return ResponseEntity.ok().build();
   }
 
-  @GetMapping("/params")
+  @PutMapping("/passivity")
+  public ResponseEntity<?> setPassivityPattern(
+      @RequestParam(name = "countFirst", required = false) Integer countFirst,
+      @RequestParam(name = "timeFirst", required = false) Long timeFirst,
+      @RequestParam(name = "countSecond", required = false) Integer countSecond,
+      @RequestParam(name = "timeSecond", required = false) Long timeSecond) {
+    try {
+      passivityPattern.setParams(new HashMap<>(Map.of(
+          "countFirst",
+          countFirst == null ? passivityPattern.getParams().get("countFirst") : countFirst,
+          "timeFirst",
+          timeFirst == null ? passivityPattern.getParams().get("timeFirst") : timeFirst,
+          "countSecond",
+          countSecond == null ? passivityPattern.getParams().get("countSecond") : countSecond,
+          "timeSecond",
+          timeSecond == null ? passivityPattern.getParams().get("timeSecond") : timeSecond
+      )));
+    } catch (Exception e) {
+      logger.error("passivity no set settings");
+      return ResponseEntity.status(400).build();
+    }
+    return ResponseEntity.ok().build();
+  }
+
+  @PutMapping("/multi")
+  public ResponseEntity<?> setMultiPattern(
+      @RequestParam(name = "lowLevel", required = false) Integer lowLevel,
+      @RequestParam(name = "highLevel", required = false) Integer highLevel,
+      @RequestParam(name = "middleLevel", required = false) Integer middleLevel,
+      @RequestParam(name = "time", required = false) Integer time,
+      @RequestParam(name = "deltaMaxAsk", required = false) BigDecimal deltaMaxAsk,
+      @RequestParam(name = "deltaMinAsk", required = false) BigDecimal deltaMinAsk,
+      @RequestParam(name = "deltaMaxBid", required = false) BigDecimal deltaMaxBid,
+      @RequestParam(name = "deltaMinBid", required = false) BigDecimal deltaMinBid) {
+    try {
+      multiPattern.setParams(new HashMap<>(Map.of(
+          "count", multiPattern.getParams().get("count"),
+          "highLevel", highLevel == null ? multiPattern.getParams().get("highLevel") : highLevel,
+          "middleLevel", middleLevel == null ? multiPattern.getParams().get("middleLevel") : middleLevel,
+          "lowLevel", lowLevel == null ? multiPattern.getParams().get("lowLevel") : lowLevel,
+          "time", time == null ? multiPattern.getParams().get("time") : time,
+          "deltaMaxAsk", deltaMaxAsk == null ? multiPattern.getParams().get("deltaMaxAsk") : deltaMaxAsk,
+          "deltaMinAsk", deltaMinAsk == null ? multiPattern.getParams().get("deltaMinAsk") : deltaMinAsk,
+          "deltaMaxBid", deltaMaxBid == null ? multiPattern.getParams().get("deltaMaxBid") : deltaMaxBid,
+          "deltaMinBid", deltaMinBid == null ? multiPattern.getParams().get("deltaMinBid") : deltaMinBid)));
+    } catch (Exception e) {
+      e.printStackTrace();
+      logger.error("multi no set settings");
+      return ResponseEntity.status(400).build();
+    }
+    return ResponseEntity.ok().build();
+  }
+
+  @GetMapping()
   public List<SettingDto> getParams() {
     List<SettingDto> list = new ArrayList<>();
     for(Entry<String, Number> set : activityPattern.getParams().entrySet()) {
       list.add(SettingDto.builder().pattern("activity").name(set.getKey()).value(set.getValue()).build());
     }
-    list.add(SettingDto.builder().pattern("activity").name("highLevel").value(multiPattern.getParams()
-        .get("highLevel")).build());
-    list.add(SettingDto.builder().pattern("activity").name("middleLevel").value(multiPattern.getParams()
-        .get("middleLevel")).build());
-    list.add(SettingDto.builder().pattern("activity").name("lowLevel").value(multiPattern.getParams()
-        .get("lowLevel")).build());
+    for(Entry<String, Number> set : multiPattern.getParams().entrySet()) {
+      list.add(SettingDto.builder().pattern("multi").name(set.getKey()).value(set.getValue()).build());
+    }
     for(Entry<String, Number> set : passivityPattern.getParams().entrySet()) {
       list.add(SettingDto.builder().pattern("passivity").name(set.getKey()).value(set.getValue()).build());
     }
