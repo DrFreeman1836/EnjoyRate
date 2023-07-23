@@ -126,5 +126,4 @@ public class SettingController {
     return list;
   }
 
-
 }
