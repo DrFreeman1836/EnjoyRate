@@ -6,7 +6,7 @@
 
   <groupId>org.example</groupId>
   <artifactId>EAPatternTick</artifactId>
-  <version>2.0.0</version>
+  <version>3.0.0</version>
 
   <parent>
     <groupId>org.springframework.boot</groupId>
@@ -40,6 +40,23 @@
       <version>2.7.0</version>
     </dependency>
 
+<!--    <dependency>-->
+<!--      <groupId>org.springframework.boot</groupId>-->
+<!--      <artifactId>spring-boot-starter-websocket</artifactId>-->
+<!--      <version>2.7.0</version>-->
+<!--    </dependency>-->
+    <dependency>
+      <groupId>org.springframework.integration</groupId>
+      <artifactId>spring-integration-ip</artifactId>
+      <version>5.5.3</version>
+    </dependency>
+
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>1.2.3</version>
+    </dependency>
+
     <dependency>
       <groupId>org.springframework.cloud</groupId>
       <artifactId>spring-cloud-starter-openfeign</artifactId>
@@ -59,9 +76,9 @@
     </dependency>
 
     <dependency>
-      <groupId>com.h2database</groupId>
-      <artifactId>h2</artifactId>
-      <scope>runtime</scope>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>8.0.25</version>
     </dependency>
 
     <dependency>

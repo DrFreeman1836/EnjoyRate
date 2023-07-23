@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+  <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <appender name="tcpController" class="ch.qos.logback.core.FileAppender">
+    <file>ErrorTickProcessingByTcp.log</file>
+    <encoder>
+      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+    </encoder>
+  </appender>
+  <appender name="controller" class="ch.qos.logback.core.FileAppender">
+    <file>Patterns.log</file>
+    <encoder>
+      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+    </encoder>
+  </appender>
+  <appender name="notification" class="ch.qos.logback.core.FileAppender">
+    <file>Notification.log</file>
+    <encoder>
+      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+    </encoder>
+  </appender>
+  <appender name="settings" class="ch.qos.logback.core.FileAppender">
+    <file>Settings.log</file>
+    <encoder>
+      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <logger name="main.price_storage.controller.TcpInputService" level="DEBUG">
+    <appender-ref ref="tcpController"/>
+  </logger>
+  <logger name="main.pattern.rest.Controller" level="INFO">
+    <appender-ref ref="controller"/>
+  </logger>
+  <logger name="main.notification.impl.TelegramBotMessages" level="ERROR">
+    <appender-ref ref="notification"/>
+  </logger>
+  <logger name="main.pattern.rest.SettingController" level="ERROR">
+    <appender-ref ref="settings"/>
+  </logger>
+
+  <root level="INFO">
+    <appender-ref ref="Console"/>
+  </root>
+
+</configuration>
