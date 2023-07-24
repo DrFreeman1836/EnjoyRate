@@ -61,13 +61,16 @@ public abstract class AbstractPatternActivity implements PatternPrice {
       return TypeSignalActivity.ERROR.getResponseCode();
     }
     getSelection();
-    if (checkPatternAll()) {
+    boolean signalByAsk = checkPatternAsk();
+    boolean signalByBid = checkPatternBid();
+
+    if (signalByAsk && signalByBid) {
       return TypeSignalActivity.ALL.getResponseCode();
     }
-    if (checkPatternAsk()) {
+    if (signalByAsk) {
       return TypeSignalActivity.ASK.getResponseCode();
     }
-    if (checkPatternBid()) {
+    if (signalByBid) {
       return TypeSignalActivity.BID.getResponseCode();
     }
     return TypeSignalActivity.NO_PATTERN.getResponseCode();

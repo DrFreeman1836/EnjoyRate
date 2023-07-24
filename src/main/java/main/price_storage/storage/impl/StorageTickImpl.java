@@ -14,12 +14,12 @@ public class StorageTickImpl implements StorageTick {
 
   private final int SIZE_LIST_TICKS = 5000;
 
-  public void processingTick(TickDto tickDto) throws Exception {
+  public void processingTick(TickDto tickDto, Long timestamp) throws Exception {
 
     Tick tick = Tick.builder()
         .ask(tickDto.getAsk())
         .bid(tickDto.getBid())
-        .timestamp(System.currentTimeMillis())
+        .timestamp(timestamp)
         .time(tickDto.getTime())
         .timeMsc(tickDto.getTimeMsc())
         .flags(tickDto.getFlags())
