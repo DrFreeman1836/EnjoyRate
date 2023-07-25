@@ -59,5 +59,16 @@ public class StorageTickImpl implements StorageTick {
         .filter(t -> t.getTimestamp() <= timeFrom && t.getTimestamp() >= timeTo).toList());
   }
 
+  /**
+   * Возвращает тики от последнего до указанной дельты
+   * @param timeTo
+   * @return
+   */
+  public List<Tick> getListTickByTimeFromLastTick(Long timeTo) {
+    Long timeStartSelection = listTicks.getLast().getTimestamp();
+    return new ArrayList<>(listTicks.stream()
+        .filter(t -> t.getTimestamp() <= timeStartSelection && t.getTimestamp() >= timeStartSelection - timeTo).toList());
+  }
+
 
 }
