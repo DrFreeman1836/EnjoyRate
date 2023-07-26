@@ -1,7 +1,9 @@
 package main.price_storage.storage.impl;
 
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
+import javax.annotation.PostConstruct;
 import main.price_storage.dto.TickDto;
 import main.price_storage.model.Tick;
 import main.price_storage.storage.StorageTick;
@@ -10,7 +12,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class StorageTickImpl implements StorageTick {
 
-  private Deque<Tick> listTicks = new ArrayDeque<>();
+  private final Deque<Tick> listTicks = new ArrayDeque<>();
 
   private final int SIZE_LIST_TICKS = 5000;
 
@@ -45,7 +47,11 @@ public class StorageTickImpl implements StorageTick {
    * @return
    */
   public List<Tick> getListTickByCount(int count) {
-    return new ArrayList<>(listTicks.stream().skip(listTicks.size() - count).collect(Collectors.toList()));
+    //TODO: Тут возникал ConcurrentModificationException, исправить синхронизацию
+    synchronized (listTicks) {
+      return new ArrayList<>(
+          listTicks.stream().skip(listTicks.size() - count).collect(Collectors.toList()));
+    }
   }
 
   /**
@@ -55,8 +61,10 @@ public class StorageTickImpl implements StorageTick {
    * @return
    */
   public List<Tick> getListTickByTime(Long timeFrom, Long timeTo) {
-    return new ArrayList<>(listTicks.stream()
-        .filter(t -> t.getTimestamp() <= timeFrom && t.getTimestamp() >= timeTo).toList());
+    synchronized (listTicks) {
+      return new ArrayList<>(listTicks.stream()
+          .filter(t -> t.getTimestamp() <= timeFrom && t.getTimestamp() >= timeTo).toList());
+    }
   }
 
   /**
@@ -65,10 +73,12 @@ public class StorageTickImpl implements StorageTick {
    * @return
    */
   public List<Tick> getListTickByTimeFromLastTick(Long timeTo) {
-    Long timeStartSelection = listTicks.getLast().getTimestamp();
-    return new ArrayList<>(listTicks.stream()
-        .filter(t -> t.getTimestamp() <= timeStartSelection && t.getTimestamp() >= timeStartSelection - timeTo).toList());
+    synchronized (listTicks) {
+      Long timeStartSelection = listTicks.getLast().getTimestamp();
+      return new ArrayList<>(listTicks.stream()
+          .filter(t -> t.getTimestamp() <= timeStartSelection
+              && t.getTimestamp() >= timeStartSelection - timeTo).toList());
+    }
   }
-
 
 }
