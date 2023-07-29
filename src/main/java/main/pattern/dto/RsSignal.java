@@ -11,13 +11,17 @@ import main.pattern.enam.TypeTrend;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RsSignal {
 
-  List<Signal> listSignal = new ArrayList<>();
+  private List<Signal> listSignal = new ArrayList<>();
 
   public void addSignal(BigDecimal price, String type, int pattern, TypeTrend trend) {
     listSignal.add(new Signal(price, type, pattern, trend));
   }
 
-  public List<Signal> getSignals() {
+  public void addSignal(Signal signal) {
+    listSignal.add(signal);
+  }
+
+  public List<Signal> getListSignal() {
     return listSignal;
   }
 

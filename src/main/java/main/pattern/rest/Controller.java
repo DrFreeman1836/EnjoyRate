@@ -74,7 +74,7 @@ public class Controller {
   }
 
   private void buildResponse(RsSignal rsSignal, StringBuilder sb, Signal signal) {
-    rsSignal.getSignals().add(signal);
+    rsSignal.addSignal(signal);
     sb.append(String.format("%s: %s trend: %s", signal.type(), signal.pattern(), signal.trend())).append("\n");
   }
 
