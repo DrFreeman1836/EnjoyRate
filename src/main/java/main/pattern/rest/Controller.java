@@ -2,6 +2,7 @@ package main.pattern.rest;
 
 import lombok.RequiredArgsConstructor;
 import main.pattern.dto.RsSignal;
+import main.pattern.dto.RsSignal.Signal;
 import main.pattern.enam.TypeSignalPassivity;
 import main.pattern.enam.TypeTrend;
 import main.pattern.service.PatternPrice;
@@ -33,20 +34,9 @@ public class Controller {
 
   private final Logger logger = LoggerFactory.getLogger(Controller.class);
 
-  enum Pattern {
-    ACTIVITY("activity"), PASSIVITY("passivity"), MULTI("multi");
-    private final String type;
-    Pattern (String type) {
-      this.type = type;
-    }
-    String getPattern(){
-      return type;
-    }
-  }
-
 
   @PostMapping("/signal")
-  public ResponseEntity<RsSignal> addTick(
+  public ResponseEntity<RsSignal> getPatterns(
       @RequestParam(name = "activity") Boolean activity,
       @RequestParam(name = "passivity") Boolean passivity,
       @RequestParam(name = "multi") Boolean multi) {
@@ -54,21 +44,21 @@ public class Controller {
     RsSignal rsSignal = new RsSignal();
     StringBuilder sbLog = new StringBuilder();
     if (activity) {
-      int res = activityPattern.getResponse();
-      if (checkResponse(res)) {
-        buildResponse(rsSignal, sbLog, Pattern.ACTIVITY.getPattern(), res, TypeTrend.NO_TREND);
+      Signal res = activityPattern.getResponse();
+      if (checkResponse(res.pattern())) {
+        buildResponse(rsSignal, sbLog, res);
       }
     }
     if (passivity) {
-      int res = passivityPattern.getResponse();
-      if (checkResponse(res)) {
-        buildResponse(rsSignal, sbLog, Pattern.PASSIVITY.getPattern(), res, TypeTrend.NO_TREND);
+      Signal res = passivityPattern.getResponse();
+      if (checkResponse(res.pattern())) {
+        buildResponse(rsSignal, sbLog, res);
       }
     }
     if (multi) {
-      int res = multiPattern.getResponse();
-      if (checkResponse(res)) {
-        buildResponse(rsSignal, sbLog, Pattern.MULTI.getPattern(), res, TypeTrend.NO_TREND);
+      Signal res = multiPattern.getResponse();
+      if (checkResponse(res.pattern())) {
+        buildResponse(rsSignal, sbLog, res);
       }
     }
 
@@ -83,9 +73,9 @@ public class Controller {
     return res != TypeSignalPassivity.NO_PATTERN.getResponseCode() && res != TypeSignalPassivity.ERROR.getResponseCode();
   }
 
-  private void buildResponse(RsSignal rsSignal, StringBuilder sb, String pattern, int res, TypeTrend trend) {
-    rsSignal.addSignal(pattern, res, trend);
-    sb.append(String.format("%s: %s trend: %s", pattern, res, trend)).append("\n");
+  private void buildResponse(RsSignal rsSignal, StringBuilder sb, Signal signal) {
+    rsSignal.getSignals().add(signal);
+    sb.append(String.format("%s: %s trend: %s", signal.type(), signal.pattern(), signal.trend())).append("\n");
   }
 
 }
